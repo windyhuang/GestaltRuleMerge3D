@@ -1,0 +1,197 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(477,5): warning MSB8004: Output 目錄結尾不是結尾斜線。這個建置執行個體將會加入此斜線，因為這樣才能正確評估 Output 目錄。
+  main.cpp
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(238,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(261,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(266,23): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(273,68): warning C4244: '引數': 將 '_Ty' 轉換為 'const _Ty'，由於類型不同，可能導致資料遺失
+          with
+          [
+              _Ty=int
+          ]
+          and
+          [
+              _Ty=float
+          ]
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(297,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(320,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(466,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RuleMath.h(64,31): warning C4305: '正在初始化': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(145,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(158,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(159,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(209,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(215,16): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(244,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(275,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(281,16): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(307,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(343,18): warning C4018: '<=': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(362,17): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(372,16): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(398,18): warning C4018: '<=': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\RelationTreeNode.h(415,17): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(158,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(264,22): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(265,22): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(266,23): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(269,91): warning C4244: '引數': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(269,75): warning C4244: '引數': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(269,60): warning C4244: '引數': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(281,21): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(288,27): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(301,27): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(310,27): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(322,27): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(335,22): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(479,27): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(487,18): warning C4244: '正在初始化': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(521,38): warning C4244: '=': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(677,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(678,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(685,15): warning C4305: '=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(738,11): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(744,10): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(765,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(880,26): warning C4305: '=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(906,24): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(941,25): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(976,25): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1010,25): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1039,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1045,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1061,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1073,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1094,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1100,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1101,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1107,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1111,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1123,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1131,24): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1153,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1159,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1160,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1166,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1172,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1174,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1183,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1185,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1194,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1196,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1217,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1218,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1228,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1236,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1237,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1300,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1413,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1417,19): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1465,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1469,19): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1519,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1531,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1533,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1534,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1535,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1569,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1599,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1601,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1602,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1603,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1646,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1745,20): warning C4244: '正在初始化': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1746,19): warning C4244: '正在初始化': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1750,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1761,21): warning C4554: '&': 檢查運算子優先順序找出可能發生的錯誤; 使用括號釐清順序
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1771,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1805,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1878,11): warning C4244: '正在初始化': 將 'T' 轉換為 'int'，由於類型不同，可能導致資料遺失
+          with
+          [
+              T=float
+          ]
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1888,24): warning C4244: '=': 將 'T' 轉換為 'int'，由於類型不同，可能導致資料遺失
+          with
+          [
+              T=float
+          ]
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1922,24): warning C4244: '=': 將 'T' 轉換為 'int'，由於類型不同，可能導致資料遺失
+          with
+          [
+              T=float
+          ]
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1995,11): warning C4244: '正在初始化': 將 'T' 轉換為 'int'，由於類型不同，可能導致資料遺失
+          with
+          [
+              T=float
+          ]
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1997,42): warning C4244: '引數': 將 'T' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+          with
+          [
+              T=float
+          ]
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1997,27): warning C4244: '引數': 將 'T' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+          with
+          [
+              T=float
+          ]
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1998,42): warning C4244: '引數': 將 'T' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+          with
+          [
+              T=float
+          ]
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(1998,27): warning C4244: '引數': 將 'T' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+          with
+          [
+              T=float
+          ]
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2108,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2150,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2256,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2353,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2365,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2371,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2386,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2388,22): warning C4018: '>': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2394,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2427,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2379,7): warning C4101: 'startpoint': 未參考的區域變數
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2440,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2530,17): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2549,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2596,25): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2611,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2633,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2680,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2707,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2710,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2711,16): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2714,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2735,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2749,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2788,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2851,26): warning C4244: '=': 將 'const float' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2852,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2855,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2861,23): warning C4244: '引數': 將 'GLdouble' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2861,17): warning C4244: '引數': 將 'GLdouble' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2865,24): warning C4244: '引數': 將 'GLdouble' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2865,17): warning C4244: '引數': 將 'GLdouble' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2856,19): warning C4101: 'z': 未參考的區域變數
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2856,16): warning C4101: 'y': 未參考的區域變數
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2856,13): warning C4101: 'x': 未參考的區域變數
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2893,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2954,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(2964,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(3062,26): warning C4305: '正在初始化': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\main.cpp(3067,30): warning C4244: '=': 將 'double' 轉換為 '_Ty'，由於類型不同，可能導致資料遺失
+          with
+          [
+              _Ty=float
+          ]
+  正在產生程式碼
+  2 of 4987 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    15 functions had inline decision re-evaluated but remain unchanged
+  已完成程式碼產生
+  TextureParameterization.vcxproj -> D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Assets\TextureParameterization.exe

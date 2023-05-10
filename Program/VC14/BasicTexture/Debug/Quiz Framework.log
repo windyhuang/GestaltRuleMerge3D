@@ -1,0 +1,13 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(477,5): warning MSB8004: Output 目錄結尾不是結尾斜線。這個建置執行個體將會加入此斜線，因為這樣才能正確評估 Output 目錄。
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: 中繼目錄 (Debug\) 包含從其他專案 (Quiz Framework.vcxproj) 共用的檔案。這可能導致錯誤的清除和重建行為。
+  main.cpp
+  Common.cpp
+E:\書\OpenGL 3D 繪圖互動程式設計\範例程式\Ch11\Program\Source\Common.cpp(150,25): warning C4018: '<': signed/unsigned 不相符
+E:\書\OpenGL 3D 繪圖互動程式設計\範例程式\Ch11\Program\Source\Common.cpp(152,26): warning C4018: '<': signed/unsigned 不相符
+  tiny_obj_loader.cpp
+  ViewManager.cpp
+E:\書\OpenGL 3D 繪圖互動程式設計\範例程式\Ch11\Program\Source\ViewManager.cpp(134,14): warning C4244: '引數': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+E:\書\OpenGL 3D 繪圖互動程式設計\範例程式\Ch11\Program\Source\ViewManager.cpp(139,14): warning C4244: '引數': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+E:\書\OpenGL 3D 繪圖互動程式設計\範例程式\Ch11\Program\Source\ViewManager.cpp(283,18): warning C4244: '=': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
+  正在產生程式碼...
+  Quiz Framework.vcxproj -> E:\書\OpenGL 3D 繪圖互動程式設計\範例程式\Ch11\Program\VC14\BasicTexture\..\..\Assets\BasicTexture.exe

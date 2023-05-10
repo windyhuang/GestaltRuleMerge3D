@@ -1,0 +1,1463 @@
+#include "MeshObject.h"
+#include <Eigen/Sparse>
+#include <map>
+
+#define Quad
+//#define Harmonic
+
+struct OpenMesh::VertexHandle const OpenMesh::PolyConnectivity::InvalidVertexHandle;
+
+#pragma region MyMesh
+/*
+struct lineGroup {
+	std::vector<MyMesh::EdgeIter> contourGroup;
+	MyMesh::Point startpoint;
+	MyMesh::Point endpoint;
+};*/
+
+MyMesh::MyMesh()
+{
+	request_vertex_normals();
+	request_vertex_status();
+	request_face_status();
+	request_edge_status();
+}
+
+MyMesh::~MyMesh()
+{
+
+}
+
+int MyMesh::FindVertex(MyMesh::Point pointToFind)
+{
+	int idx = -1;
+	for (MyMesh::VertexIter v_it = vertices_begin(); v_it != vertices_end(); ++v_it)
+	{
+		MyMesh::Point p = point(*v_it);
+		if (pointToFind == p)
+		{
+			idx = v_it->idx();
+			break;
+		}
+	}
+
+	return idx;
+}
+
+void MyMesh::ClearMesh()
+{
+	if (!faces_empty())
+	{
+		for (MyMesh::FaceIter f_it = faces_begin(); f_it != faces_end(); ++f_it)
+		{
+			delete_face(*f_it, true);
+		}
+
+		garbage_collection();
+	}
+}
+
+#pragma endregion
+
+#pragma region GLMesh
+
+GLMesh::GLMesh()
+{
+
+}
+
+GLMesh::~GLMesh()
+{
+
+}
+
+bool GLMesh::Init(std::string fileName)
+{
+	if (LoadModel(fileName))
+	{
+		LoadToShader();
+		for (MyMesh::EIter eit = mesh.edges_begin(); eit != mesh.edges_end(); ++eit) {
+
+			// 檢查邊界。 （如果有邊界，一個半邊將無效）
+			// 注意：您必須取消引用邊緣迭代器
+			if (!mesh.is_boundary(*eit))
+			{
+				// if you want vertex handles use:
+				auto vh1 = mesh.to_vertex_handle(mesh.halfedge_handle(*eit, 0));
+				auto vh2 = mesh.from_vertex_handle(mesh.halfedge_handle(*eit, 0));
+				auto thehalfedge = mesh.halfedge_handle(*eit, 0);
+				// if you want handles of faces adjacent to the edge use:
+				auto fh1 = mesh.face_handle(thehalfedge);
+				auto fh2 = mesh.face_handle(mesh.opposite_halfedge_handle(thehalfedge));//auto fh2 = mesh.opposite_face_handle(mesh.halfedge_handle(*eit, 0));
+
+				// if you need normal vectors of those faces use:
+				MyMesh::Normal face1Norm = mesh.normal(fh1);
+				MyMesh::Normal face2Norm = mesh.normal(fh2);
+				face1Norm.data();
+				face2Norm.data();
+				double datatest = (face1Norm | face2Norm) / (sqrt(face1Norm | face1Norm) * sqrt(face2Norm | face2Norm));
+				if (abs((face1Norm | face2Norm) / (sqrt(face1Norm | face1Norm) * sqrt(face2Norm | face2Norm))) < 0.1) {
+					edgcontour.push_back(eit);
+					//std::cout << "edgcontour：" << datatest << std::endl;
+				}
+
+			}
+			else {
+				edgcontour.push_back(eit);
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
+void GLMesh::Render()
+{
+	glBindVertexArray(vao);
+	glDrawElements(GL_TRIANGLES, mesh.n_faces() * 3, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
+
+bool GLMesh::LoadModel(std::string fileName)
+{
+	OpenMesh::IO::Options ropt;
+	if (OpenMesh::IO::read_mesh(mesh, fileName, ropt))
+	{
+		if (!ropt.check(OpenMesh::IO::Options::VertexNormal) && mesh.has_vertex_normals())
+		{
+			mesh.request_face_normals();
+			mesh.update_normals();
+			//刪除normal
+			//mesh.release_face_normals();
+		}
+
+		return true;
+	}
+
+	return false;
+}
+
+void GLMesh::LoadToShader()
+{
+	std::vector<MyMesh::Point> vertices;
+	vertices.reserve(mesh.n_vertices());
+	for (MyMesh::VertexIter v_it = mesh.vertices_begin(); v_it != mesh.vertices_end(); ++v_it)
+	{
+		vertices.push_back(mesh.point(*v_it));
+		MyMesh::Point p = mesh.point(*v_it);
+	}
+
+	std::vector<MyMesh::Normal> normals;
+	normals.reserve(mesh.n_vertices());
+	for (MyMesh::VertexIter v_it = mesh.vertices_begin(); v_it != mesh.vertices_end(); ++v_it)
+	{
+		normals.push_back(mesh.normal(*v_it));
+	}
+
+	std::vector<unsigned int> indices;
+	indices.reserve(mesh.n_faces() * 3);
+	for (MyMesh::FaceIter f_it = mesh.faces_begin(); f_it != mesh.faces_end(); ++f_it)
+	{
+		for (MyMesh::FaceVertexIter fv_it = mesh.fv_iter(*f_it); fv_it.is_valid(); ++fv_it)
+		{
+			indices.push_back(fv_it->idx());
+		}
+	}
+
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
+	glGenBuffers(1, &vboVertices);
+	glBindBuffer(GL_ARRAY_BUFFER, vboVertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(MyMesh::Point) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(0);
+
+	glGenBuffers(1, &vboNormal);
+	glBindBuffer(GL_ARRAY_BUFFER, vboNormal);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(MyMesh::Normal) * normals.size(), &normals[0], GL_DYNAMIC_DRAW);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(1);
+
+	glGenBuffers(1, &ebo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.size(), &indices[0], GL_DYNAMIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
+void GLMesh::LoadTexCoordToShader()
+{
+	if (mesh.has_vertex_texcoords2D())
+	{
+		std::vector<MyMesh::TexCoord2D> texCoords;
+		for (MyMesh::VertexIter v_it = mesh.vertices_begin(); v_it != mesh.vertices_end(); ++v_it)
+		{
+			MyMesh::TexCoord2D texCoord = mesh.texcoord2D(*v_it);
+			texCoords.push_back(texCoord);
+		}
+
+		glBindVertexArray(vao);
+
+		glGenBuffers(1, &vboTexCoord);
+		glBindBuffer(GL_ARRAY_BUFFER, vboTexCoord);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(MyMesh::TexCoord2D) * texCoords.size(), &texCoords[0], GL_DYNAMIC_DRAW);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(2);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+	}
+}
+
+#pragma endregion
+
+MeshObject::MeshObject()
+{
+
+}
+
+MeshObject::~MeshObject()
+{
+}
+
+bool MeshObject::Init(std::string fileName)
+{
+	//selectedFace.clear();
+
+	return model.Init(fileName);
+}
+
+void MeshObject::MeshContourStructure()
+{
+	MyMesh mesh;
+	mesh = model.mesh;
+	//meshEdgeGrouop
+	std::vector<int> walkpast; walkpast.resize(edgcontour.size());
+	for (int i = 0; i < edgcontour.size(); i++) {
+
+		if (walkpast[i] != 1) {
+			EdgeGrouop thisEdgegroup;
+			MyMesh::HalfedgeHandle contour1 = mesh.halfedge_handle(*edgcontour[i], 1);
+			MyMesh::Point contour1p1 = mesh.point(mesh.from_vertex_handle(contour1));
+			MyMesh::Point contour1p2 = mesh.point(mesh.to_vertex_handle(contour1));
+			MyMesh::Point contour1p = contour1p2 - contour1p1;
+			thisEdgegroup.edgegroups.push_back(edgcontour[i]);
+			walkpast[i] = 1;
+			//算i長度
+			float contour1dist = sqrt(pow((contour1p1[0] - contour1p2[0]), 2) + pow((contour1p1[1] - contour1p2[1]), 2) + pow((contour1p1[2] - contour1p2[2]), 2));
+			thisEdgegroup.edgeline.push_back(contour1dist);
+			thisEdgegroup.edgepoints.push_back(contour1p1);
+			thisEdgegroup.edgepoints.push_back(contour1p2);
+			for (int j = 0; j < edgcontour.size(); j++) {
+				MyMesh::HalfedgeHandle contour2 = mesh.halfedge_handle(*edgcontour[j], 1);
+				MyMesh::Point contour2p1 = mesh.point(mesh.from_vertex_handle(contour2));
+				MyMesh::Point contour2p2 = mesh.point(mesh.to_vertex_handle(contour2));
+				MyMesh::Point contour2p = contour2p2 - contour2p1;
+				if (thisEdgegroup.edgegroups.size() == 1) {
+					if (i != j && walkpast[j] != 1) {
+						//算兩條線有點相同
+						bool edgehaspointthesame = false;
+						if (contour1p1 == contour2p1 || contour1p1 == contour2p2 || contour1p2 == contour2p1 || contour1p2 == contour2p2)
+							edgehaspointthesame = true;
+						//算兩條線角度
+						float angle = acos(abs(contour1p | contour2p) / (abs(contour1p.length() * contour2p.length()))) * 180 / 3.14;
+
+						//算j長度
+						float contour2dist = sqrt(pow((contour2p1[0] - contour2p2[0]), 2) + pow((contour2p1[1] - contour2p2[1]), 2) + pow((contour2p1[2] - contour2p2[2]), 2));
+						if (edgehaspointthesame) {
+							if (angle < 0.5) { //角度小的為同一種曲線
+								thisEdgegroup.angle.push_back(angle);
+								thisEdgegroup.edgegroups.push_back(edgcontour[j]);
+								thisEdgegroup.edgeline.push_back(contour2dist);
+								thisEdgegroup.edgepoints.push_back(contour2p1);
+								thisEdgegroup.edgepoints.push_back(contour2p2);
+								walkpast[j] = 1;
+							}
+						}
+					}
+				}
+				else {//其他與p2相連的物件
+					if (i != j && walkpast[j] != 1) {
+						for (int z = 0; z < thisEdgegroup.edgegroups.size(); z++) {
+							MyMesh::HalfedgeHandle contour1 = mesh.halfedge_handle(*thisEdgegroup.edgegroups[z], 1);
+							MyMesh::Point contour1p1 = mesh.point(mesh.from_vertex_handle(contour1));
+							MyMesh::Point contour1p2 = mesh.point(mesh.to_vertex_handle(contour1));
+							MyMesh::Point contour1p = contour1p2 - contour1p1;
+							float contour1dist = thisEdgegroup.edgeline[z];
+
+							//算兩條線有點相同
+							bool edgehaspointthesame = false;
+							if (contour1p1 == contour2p1 || contour1p1 == contour2p2 || contour1p2 == contour2p1 || contour1p2 == contour2p2)
+								edgehaspointthesame = true;
+							//算兩條線角度
+							float angle = acos(abs(contour1p | contour2p) / (abs(contour1p.length() * contour2p.length()))) * 180 / 3.14;
+
+							//算j長度
+							float contour2dist = sqrt(pow((contour2p1[0] - contour2p2[0]), 2) + pow((contour2p1[1] - contour2p2[1]), 2) + pow((contour2p1[2] - contour2p2[2]), 2));
+							if (edgehaspointthesame) {
+								if (angle < 0.2) { //角度小的為同一種曲線
+									thisEdgegroup.angle.push_back(angle);
+									thisEdgegroup.edgegroups.push_back(edgcontour[j]);
+									thisEdgegroup.edgeline.push_back(contour2dist);
+									thisEdgegroup.edgepoints.push_back(contour2p1);
+									thisEdgegroup.edgepoints.push_back(contour2p2);
+									walkpast[j] = 1;
+								}
+							}
+
+
+						}
+					}
+				}
+			}
+			meshEdgeGrouop.push_back(thisEdgegroup);
+		}
+	}
+
+	//算圓形、規則曲線、不規則曲線
+	for (int i = 0; i < meshEdgeGrouop.size(); i++) {
+		if (meshEdgeGrouop[i].edgegroups.size() == 1)
+			meshEdgeGrouop[i].style = 3;
+		else {
+			float disstep= meshEdgeGrouop[i].edgeline[0];//記錄長度
+			bool diffentdis = false;//預期長度一致
+			for (int j = 1; j < meshEdgeGrouop[i].edgeline.size(); j++) {
+				if (abs(meshEdgeGrouop[i].edgeline[j] - disstep) > 0.5) {
+					diffentdis = true;
+					break;
+				}
+			}
+			if (diffentdis == false) {
+				std::vector<int> goeachpoint; goeachpoint.resize(meshEdgeGrouop[i].edgepoints.size());
+				for (int j = 0; j < meshEdgeGrouop[i].edgepoints.size(); j++) {
+					for (int z = j + 1; z < meshEdgeGrouop[i].edgepoints.size(); z++) {
+						if (meshEdgeGrouop[i].edgepoints[j] == meshEdgeGrouop[i].edgepoints[z]) {
+							goeachpoint[j]++; goeachpoint[z]++;
+						}
+					}
+				}
+				//goeachpoint sort
+				sort(goeachpoint.begin(), goeachpoint.end());
+				//長度大致相同，每個頂點應該都會重複2次--圓形
+				if(goeachpoint[0]==2)
+					meshEdgeGrouop[i].style = 0;
+				//長度大致相同，頂點沒有重複--規則線
+				else
+					meshEdgeGrouop[i].style = 1;
+			}
+			else {
+				//長度不同--不規則
+				meshEdgeGrouop[i].style = 2;
+			}
+		}
+	}
+}
+
+void MeshObject::Render()
+{
+	glBindVertexArray(model.vao);
+	glDrawElements(GL_TRIANGLES, model.mesh.n_faces() * 3, GL_UNSIGNED_INT, 0);
+	//glBindVertexArray(0);
+}
+
+void MeshObject::RenderVertex()
+{
+	glBindVertexArray(model.vao);
+	glLineWidth(5);
+	glDrawElements(GL_LINES, model.mesh.n_faces() * 3, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+
+
+}
+void MeshObject::RenderSegLine() {
+	glBindVertexArray(segvao);
+	glLineWidth(5);
+	//glDrawElements(GL_LINES, edgcontour.size(), GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_LINES, 0, model.mesh.n_edges());// model.mesh.n_edges()
+	glBindVertexArray(0);
+}
+void MeshObject::RenderDetailLine() {
+	glBindVertexArray(detailvao);
+	glLineWidth(5);
+	//glDrawElements(GL_LINES, edgcontour.size(), GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_LINES, 0, model.mesh.n_edges());// model.mesh.n_edges()
+	glBindVertexArray(0);
+}
+void MeshObject::RenderContours()
+{
+	glBindVertexArray(contourvao);
+	glLineWidth(5);
+	//glDrawElements(GL_LINES, edgcontour.size(), GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_LINES, 0, model.mesh.n_edges());// model.mesh.n_edges()
+	glBindVertexArray(0);
+}
+void MeshObject::RenderContourGroups()
+{
+	MyMesh mesh;
+	mesh = model.mesh;
+	/*for (int i = 0; i < edgcontour.size(); i++)
+	{
+		std::vector<MyMesh::Point> vertices;
+		lineGroup lineg;
+		MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*edgcontour[i], 1);
+		MyMesh::Point curVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+		MyMesh::Point curVertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+		vertices.push_back(curVertex);
+		vertices.push_back(curVertex1);
+		GLuint s;
+		glGenVertexArrays(1, &s);
+		glBindVertexArray(s);
+
+		glGenBuffers(1, &contourg);
+		glBindBuffer(GL_ARRAY_BUFFER, contourg);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(MyMesh::Point) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+		contourgroupvaos.push_back(s);
+		vertices.clear();
+	}
+	*/
+
+
+	for (int i = 0; i < linegroups.size(); i++) {
+		//if (linegroups[i].contourGroup.size() > 2) {
+		std::vector<MyMesh::Point> vertices;
+		MyMesh::HalfedgeHandle other_hedge = mesh.halfedge_handle(*linegroups[i].contourGroup[0], 1);
+		//linegroups[i].startpoint = mesh.point(mesh.from_vertex_handle(other_hedge));
+		other_hedge = mesh.halfedge_handle(*linegroups[i].contourGroup[linegroups[i].contourGroup.size() - 1], 1);
+		//linegroups[i].endpoint = mesh.point(mesh.to_vertex_handle(other_hedge));
+		for (int j = 0; j < linegroups[i].contourGroup.size(); j++)
+		{
+			MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*linegroups[i].contourGroup[j], 1);
+
+			MyMesh::Point curVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+
+			vertices.push_back(curVertex);
+			MyMesh::Point middlepoint = curVertex;
+			curVertex = mesh.point(mesh.to_vertex_handle(_hedge));
+			vertices.push_back(curVertex);
+			middlepoint += curVertex;
+			// if you want handles of faces adjacent to the edge use:
+			MyMesh::FaceHandle  fh1 = mesh.face_handle(_hedge);
+			MyMesh::FaceHandle  fh2 = mesh.face_handle(mesh.opposite_halfedge_handle(_hedge));//auto fh2 = mesh.opposite_face_handle(mesh.halfedge_handle(*eit, 0));
+			// if you need normal vectors of those faces use:
+			MyMesh::Normal face1Norm = mesh.normal(fh1);
+			MyMesh::Normal face2Norm = mesh.normal(fh2);
+
+			middlepoint = middlepoint / 2;
+			/*vertices.push_back(middlepoint);
+			vertices.push_back(middlepoint + face1Norm);
+
+
+			vertices.push_back(middlepoint);
+			vertices.push_back(middlepoint + face2Norm);*/
+
+			//vertices.push_back(middlepoint);
+			//vertices.push_back(middlepoint + (face1Norm+face2Norm)/2);
+
+		}
+		/*if (linegroups[i].contourGroup.size() >0) {
+
+			vertices.push_back(linegroups[i].startpoint);vertices.push_back(linegroups[i].endpoint);
+		}*/
+		GLuint s;
+		glGenVertexArrays(1, &s);
+		glBindVertexArray(s);
+
+		glGenBuffers(1, &contourg);
+		glBindBuffer(GL_ARRAY_BUFFER, contourg);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(MyMesh::Point) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+		contourgroupvaos.push_back(s);
+		vertices.clear();
+		//}
+	}
+
+
+}
+
+void MeshObject::RenderSelectedFace()
+{
+	if (selectedFace.size() > 0)
+	{
+		std::vector<unsigned int*> offsets(selectedFace.size());
+		for (int i = 0; i < offsets.size(); ++i)
+		{
+			offsets[i] = (GLuint*)(selectedFace[i] * 3 * sizeof(GLuint));
+		}
+
+		std::vector<int> count(selectedFace.size(), 3);
+
+		glBindVertexArray(model.vao);
+		glMultiDrawElements(GL_TRIANGLES, &count[0], GL_UNSIGNED_INT, (const GLvoid**)&offsets[0], selectedFace.size());
+		glBindVertexArray(0);
+	}
+}
+
+bool MeshObject::AddSelectedFace(unsigned int faceID)
+{
+	if (std::find(selectedFace.begin(), selectedFace.end(), faceID) == selectedFace.end() &&
+		faceID >= 0 && faceID < model.mesh.n_faces())
+	{
+		selectedFace.push_back(faceID);
+		return true;
+	}
+	return false;
+}
+void MeshObject::Render_Solid()
+{
+	MyMesh mesh;
+	mesh = model.mesh;
+	MyMesh::FaceIter f_it;
+	MyMesh::FaceVertexIter	fv_it;
+	//glPushAttrib(GL_LIGHTING_BIT);
+	glEnable(GL_POLYGON_OFFSET_FILL);
+	glEnable(GL_LIGHTING);
+	glPolygonOffset(2.0, 2.0);
+	glBegin(GL_TRIANGLES);
+	glColor4f(0.81, 0.74, 0.33, 0.3);
+
+	for (f_it = mesh.faces_begin(); f_it != mesh.faces_end(); ++f_it)
+	{
+
+
+		for (fv_it = mesh.fv_iter(*f_it); fv_it.is_valid(); ++fv_it)
+		{
+			MyMesh::Point p = mesh.normal(*fv_it);
+			glNormal3fv(p.data());
+			glVertex3fv(mesh.point(*fv_it).data());
+		}
+	}
+	glEnd();
+
+	glDisable(GL_POLYGON_OFFSET_FILL);
+}
+void MeshObject::Render_Wireframe()
+{
+
+	glLineWidth(5.0);
+	MyMesh mesh;
+	mesh = model.mesh;
+	glColor3f(10.0, 0.0, 0.0);
+
+	glBegin(GL_LINES);
+	for (MyMesh::EdgeIter e_it = mesh.edges_begin(); e_it != mesh.edges_end(); ++e_it)
+	{
+
+		MyMesh::HalfedgeHandle _heh = mesh.halfedge_handle(*e_it, 0);
+		MyMesh::Point curVertex = mesh.point(mesh.from_vertex_handle(_heh));
+		glVertex3fv(curVertex.data());
+
+		curVertex = mesh.point(mesh.to_vertex_handle(_heh));
+		glVertex3fv(curVertex.data());
+	}
+	glEnd();
+
+}
+void MeshObject::ChangePoint(glm::mat4 modelchange) {
+	MyMesh mesh;
+	mesh = model.mesh;
+	for (MyMesh::VIter v_it = mesh.vertices_begin(); v_it != mesh.vertices_end(); ++v_it)
+	{
+		MyMesh::Point p = mesh.point(*v_it);
+		glm::vec3 poin = glm::vec3(p[0], p[1], p[2]);
+		poin = mat4tovec3(modelchange, poin);
+		mesh.point(*v_it) = MyMesh::Point(poin[0], poin[1], poin[2]);
+	}
+}
+void MeshObject::findContours()
+{
+	edgcontour.clear();
+	//基本的contour判斷
+	int startedge = 0;
+
+	MyMesh mesh;
+	mesh = model.mesh;
+	for (MyMesh::EIter eit = mesh.edges_begin(); eit != mesh.edges_end(); ++eit) {
+
+		// 檢查邊界。 （如果有邊界，一個半邊將無效）
+		// 注意：您必須取消引用邊緣迭代器
+		if (!mesh.is_boundary(*eit))
+		{
+			// if you want vertex handles use:
+			auto vh1 = mesh.to_vertex_handle(mesh.halfedge_handle(*eit, 0));
+			auto vh2 = mesh.from_vertex_handle(mesh.halfedge_handle(*eit, 0));
+			auto thehalfedge = mesh.halfedge_handle(*eit, 0);
+			// if you want handles of faces adjacent to the edge use:
+			auto fh1 = mesh.face_handle(thehalfedge);
+			auto fh2 = mesh.face_handle(mesh.opposite_halfedge_handle(thehalfedge));//auto fh2 = mesh.opposite_face_handle(mesh.halfedge_handle(*eit, 0));
+
+			// if you need normal vectors of those faces use:
+			MyMesh::Normal face1Norm = mesh.normal(fh1);
+			MyMesh::Normal face2Norm = mesh.normal(fh2);
+			face1Norm.data();
+			face2Norm.data();
+			double datatest = (face1Norm | face2Norm) / (sqrt(face1Norm | face1Norm) * sqrt(face2Norm | face2Norm));
+			if (abs((face1Norm | face2Norm) / (sqrt(face1Norm | face1Norm) * sqrt(face2Norm | face2Norm))) < contourthreshold) {
+				//刪除相同線段
+				bool isinit = false;
+				MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*eit, 1);
+				MyMesh::Point curVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+				MyMesh::Point curVertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+				MyMesh::Point  middlepoint = (curVertex + curVertex1) / 2;
+				for (int z = 0; z < edgcontour.size(); z++)
+				{
+					MyMesh::HalfedgeHandle other_hedge = mesh.halfedge_handle(*edgcontour[z], 1);
+					MyMesh::Point otherVertex = mesh.point(mesh.from_vertex_handle(other_hedge));
+					MyMesh::Point otherVertex1 = mesh.point(mesh.to_vertex_handle(other_hedge));
+					if ((curVertex == otherVertex && curVertex1 == otherVertex1) || (curVertex == otherVertex1 && curVertex1 == otherVertex))
+						isinit = true;
+				}
+				if (isinit == false) {
+					edgcontour.push_back(eit);
+					//edgcontournormal.push_back();
+				}
+				//std::cout << "edgcontour："<<datatest << std::endl;
+			}
+		}
+		else {
+
+			edgcontour.push_back(eit);
+		}
+	}
+
+
+}
+
+
+void MeshObject::contourGroup() {
+	MyMesh mesh;
+	mesh = model.mesh;
+	std::vector<bool> isgothough;
+	for (int i = 0; i < edgcontour.size(); i++) {
+		isgothough.push_back(false);
+	}
+	for (int i = 0; i < edgcontour.size(); i++)
+	{
+		MyMesh::Point CircleRegularity;
+		if (isgothough[i] == false) {
+			isgothough[i] = true;
+			lineGroup lineg;
+			MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*edgcontour[i], 1);
+			MyMesh::Point curVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+			MyMesh::Point curVertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+			MyMesh::Point cur = curVertex1 - curVertex;
+			lineg.contourGroup.push_back(edgcontour[i]);
+			//與其他的線段做角度測試
+			int step = 0;
+			//edgcontour.erase(unique(edgcontour.begin(), edgcontour.end(), edgcontour.end()));
+			for (int j = i + 1; j < edgcontour.size(); j++) {
+				if (isgothough[j] == false) {
+					MyMesh::HalfedgeHandle other_hedge = mesh.halfedge_handle(*edgcontour[j], 1);
+					MyMesh::Point otherVertex = mesh.point(mesh.from_vertex_handle(other_hedge));
+					MyMesh::Point otherVertex1 = mesh.point(mesh.to_vertex_handle(other_hedge));
+					MyMesh::Point other = otherVertex1 - otherVertex;
+					MyMesh::Point s, s1;
+					bool connect = false;
+					if (curVertex == otherVertex)
+					{
+						connect = true;
+						s = curVertex1;
+						s1 = otherVertex1;
+						cur = otherVertex - otherVertex1;
+						//curVertex = otherVertex;
+						//curVertex1 = otherVertex1;
+					}
+					else if (curVertex == otherVertex1) {
+						connect = true;
+						s = curVertex1;
+						s1 = otherVertex;
+						//curVertex = otherVertex;
+						//curVertex1 = otherVertex1;
+					}
+					else if (curVertex1 == otherVertex) {
+						connect = true;
+						s = curVertex;
+						s1 = otherVertex1;
+						//cur = curVertex - curVertex1;
+						//curVertex = otherVertex;
+						//curVertex1 = otherVertex1;
+					}
+					else if (curVertex1 == otherVertex1) {
+						connect = true;
+						s = curVertex;
+						s1 = otherVertex;
+						//cur = curVertex - curVertex1;
+						//other = otherVertex - otherVertex1;
+						//curVertex = otherVertex;
+						//curVertex1 = otherVertex1;
+					}
+					if (connect)
+					{
+						//std::cout << i << "abs(cur | other) /abs(sqrt(cur|cur))/abs(sqrt(other|other))" <<acos( abs(cur | other) / (abs(cur.length()*other.length())) ) * 180 / 3.14 << std::endl;
+						if (acos(abs(cur | other) / (abs(cur.length() * other.length()))) * 180 / 3.14 < 1) {
+							lineg.contourGroup.push_back(edgcontour[j]);
+							if (step == 0) {
+								lineg.startpoint = s;
+								lineg.endpoint = s1;
+							}
+							else
+								lineg.endpoint = s1;
+							curVertex = otherVertex;
+							curVertex1 = otherVertex1;
+							//cur = curVertex1 - curVertex;
+							step++;
+							isgothough[j] == true;
+						}
+						else
+							break;
+					}
+					else
+						break;
+				}
+			}
+			int s = lineg.contourGroup.size();
+			linegroups.push_back(lineg);
+			lineg.contourGroup.clear();
+			i += step;
+		}
+	}
+
+}
+void MeshObject::lineSegment(MyMesh::Point gendirection)
+{
+	MyMesh mesh;
+	mesh = model.mesh;
+	/*for (int i = 0; i < edgcontour.size(); i++) {
+
+
+
+			//MyMesh::Point s = MyMesh::Point(differentElements[0].edgcontour[i]);
+			MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*edgcontour[i], 1);
+			MyMesh::Point otherVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+			MyMesh::Point otherVertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+			MyMesh::Point other = otherVertex1 - otherVertex;
+			std::cout << i << " acos(abs(ss | other)" << acos(abs(gendirection | other)) << std::endl;
+
+	}*/
+	/*glm::vec4 step= glm::vec4(1.0f, 0.0f, 0.0f, 1.0f);
+	step = step * xf;
+	for (MyMesh::VIter v_it = mesh.vertices_begin(); v_it != mesh.vertices_end(); ++v_it)
+	{
+		MyMesh::Point p = mesh.point(v_it);
+		glm::vec4 poin = glm::vec4(p[0], p[1], p[2],1.0f);
+		poin = step * poin;
+		mesh.point(v_it) = MyMesh::Point(poin[0], poin[1], poin[2]);
+	}*/
+	std::vector<MyMesh::Point> vertices;
+	std::vector<MyMesh::Normal> normals;
+	std::vector<MyMesh::Point> detailvertices;
+	std::vector<MyMesh::Normal> detailnormals;
+	vector<MyMesh::EdgeIter> steptext;
+	for (int i = 0; i < edgcontour.size(); i++)
+	{
+		MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*edgcontour[i], 1);
+
+		MyMesh::Point curVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+		MyMesh::Point otherVertex = mesh.normal(mesh.from_vertex_handle(_hedge));
+		MyMesh::Point otherVertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+		//otherVertex1 = mesh.normal(mesh.to_vertex_handle(_hedge));
+		MyMesh::Point other = otherVertex1 - otherVertex;
+
+		if (abs(acos(abs(gendirection | other))) > 0.1) {
+			detailvertices.push_back(curVertex);
+			detailnormals.push_back(mesh.normal(mesh.from_vertex_handle(_hedge)));
+			detailvertices.push_back(otherVertex1);
+			detailnormals.push_back(mesh.normal(mesh.to_vertex_handle(_hedge)));
+			detailEdgcontour.push_back(edgcontour[i]);
+
+		}
+		else {//當近似平行，角度為NAN, 主要結構線
+			//std::cout << i << " acos(abs(ss | other)" << abs(acos(abs(gendirection | other))) << std::endl; 
+			//vertices.push_back(curVertex);
+			bool isthesame = false;//重複線段
+			for (int z = 0; z < structureNearEdgcontour.size(); z++) {
+				MyMesh::HalfedgeHandle nearcheck = mesh.halfedge_handle(*structureNearEdgcontour[z], 1);
+
+				MyMesh::Point nVertex = mesh.point(mesh.from_vertex_handle(nearcheck));
+				MyMesh::Point nVertex1 = mesh.point(mesh.to_vertex_handle(nearcheck));
+				if (nVertex == curVertex && nVertex1 == otherVertex1)
+					isthesame = true;
+				if (nVertex == otherVertex1 && nVertex1 == curVertex)
+					isthesame = true;
+			}
+			normals.push_back(mesh.normal(mesh.from_vertex_handle(_hedge)));
+			//vertices.push_back(otherVertex1);
+			normals.push_back(mesh.normal(mesh.to_vertex_handle(_hedge)));
+			if (isthesame == false)
+				structureNearEdgcontour.push_back(edgcontour[i]);
+		}
+		steptext.push_back(edgcontour[i]);
+	}
+	int edgesize = edgcontour.size();
+	int stepsteptext = structureNearEdgcontour.size();
+	//Convex convex;
+	//vector<MyMesh::EdgeIter> convexedge= Construct(structureNearEdgcontour);
+	vector<vector<float>> objectdist;
+	float largeNum = 0, nearNum = 99;
+	objectdist.resize(structureNearEdgcontour.size());
+	vector<vector<int>> nearobj;//接近的線段
+	float neardist = 0.1;
+	nearobj.resize(structureNearEdgcontour.size() - 1);
+	vector<bool> gorun;//是否走過
+	gorun.resize(structureNearEdgcontour.size());
+	for (int i = 0; i < structureNearEdgcontour.size() - 1; i++) {
+		if (gorun[i] == false) {
+			MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*structureNearEdgcontour[i], 1);
+
+			MyMesh::Point curVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+			MyMesh::Point curVertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+			MyMesh::Point curmid = (curVertex + curVertex1) / 2;
+			for (int j = i + 1; j < structureNearEdgcontour.size(); j++) {
+				MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*structureNearEdgcontour[j], 1);
+				MyMesh::Point otherVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+				MyMesh::Point otherVertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+				MyMesh::Point othermid = (otherVertex + otherVertex1) / 2;
+				float d = abs(othermid[0] - curmid[0] + othermid[1] - curmid[1] + othermid[2] - curmid[2]);
+				objectdist[i].push_back(d);
+				if (d > largeNum)
+					largeNum = d;
+				if (d < nearNum)
+					nearNum = d;
+				if (d < neardist) {
+					gorun[i] = true;
+					nearobj[i].push_back(j);
+				}
+			}
+		}
+		//vertices.push_back(curVertex);
+		//vertices.push_back(curVertex1);
+
+	}
+	vector<int> runstep; runstep.resize(structureNearEdgcontour.size());
+	int nearedge = structureNearEdgcontour.size();
+	for (int i = 0; i < nearobj.size(); i++) {
+		bool tostep = true;
+		float bignum = 0; int nowstep = 0;//用以記錄拿一個繪制, 其他距離最遠者
+
+		if (runstep[i] != 1) {
+			if (nearobj[i].size() < 2 && nearobj[i].size() != 0) {
+				structureFarEdgcontour.push_back(structureNearEdgcontour[i]);
+			}
+			else if (nearobj[i].size() >= 2) {
+				for (int j = 0; j < nearobj[i].size(); j++) {
+					for (int z = 0; z < objectdist[nearobj[i][j]].size(); z++) {
+						if (objectdist[nearobj[i][j]][z] > bignum) {
+							bignum = objectdist[nearobj[i][j]][z];
+							nowstep = nearobj[i][j];
+							runstep[nowstep] = 1;
+						}
+					}
+				}
+				structureFarEdgcontour.push_back(structureNearEdgcontour[nowstep]);
+			}
+		}runstep[i] = 1;
+	}
+	for (int i = 0; i < structureNearEdgcontour.size(); i++) {
+		MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*structureNearEdgcontour[i], 1);
+
+		MyMesh::Point curVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+		MyMesh::Point otherVertex = mesh.normal(mesh.from_vertex_handle(_hedge));
+		MyMesh::Point curVertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+		vertices.push_back(curVertex);
+		vertices.push_back(curVertex1);
+	}
+	glGenVertexArrays(1, &segvao);
+	glBindVertexArray(segvao);
+
+	glGenBuffers(1, &segV);
+	glBindBuffer(GL_ARRAY_BUFFER, segV);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(MyMesh::Point) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	glGenVertexArrays(1, &detailvao);
+	glBindVertexArray(detailvao);
+
+	glGenBuffers(1, &detailV);
+	glBindBuffer(GL_ARRAY_BUFFER, detailV);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(MyMesh::Point) * detailvertices.size(), &detailvertices[0], GL_DYNAMIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+}
+
+/*vector<vector<int>> MeshObject::AnalysisOfSame(MeshObject obj1, MeshObject obj2, vec3 pos1, vec3 pos2)
+{
+	//依序號判斷彼此是否可以合並
+	//距離小於d為可合併
+	float d = 0.1;
+	MyMesh mesh;
+	mesh = model.mesh;
+	//vector<int> mergeid;
+	vector<vector<int>> dis;
+	for (int i = 0; i < obj1.structureNearEdgcontour.size(); i++ ) {
+		//每個點進行距離判斷，若距離小於d為可合併
+		MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*obj1.structureNearEdgcontour[i], 1);
+		MyMesh::Point obj1Vertex = mesh.point(mesh.from_vertex_handle(_hedge));
+		MyMesh::Point obj1Vertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+
+		MyMesh::HalfedgeHandle _hedg = mesh.halfedge_handle(*obj2.structureNearEdgcontour[i], 1);
+		MyMesh::Point obj2Vertex = mesh.point(mesh.from_vertex_handle(_hedg));
+		MyMesh::Point obj2Vertex1 = mesh.point(mesh.to_vertex_handle(_hedg));
+		bool mergeornot = false;
+
+		vector<int> distance;
+		int obj1, obj2;
+		if (abs(obj1Vertex[0] - obj2Vertex[0] + obj1Vertex[1] - obj2Vertex[1] + obj1Vertex[2] - obj2Vertex[2]) < d) {
+			obj1 = 1;
+			obj2 = 1;
+			mergeornot = true;
+		}
+		else if (abs(obj1Vertex[0] - obj2Vertex1[0] + obj1Vertex[1] - obj2Vertex1[1] + obj1Vertex[2] - obj2Vertex1[2]) < d) {
+			obj1 = 1;
+			obj2 = 0;
+			mergeornot = true;
+		}
+		else if (abs(obj1Vertex1[0] - obj2Vertex[0] + obj1Vertex1[1] - obj2Vertex[1] + obj1Vertex1[2] - obj2Vertex[2]) < d) {
+			obj1 = 0;
+			obj2 = 1;
+			mergeornot = true;
+		}
+		else if (abs(obj1Vertex1[0] - obj2Vertex1[0] + obj1Vertex1[1] - obj2Vertex1[1] + obj1Vertex1[2] - obj2Vertex1[2]) < d) {
+			obj1 = 0;
+			obj2 = 0;
+			mergeornot = true;
+		}
+		if (mergeornot) {
+			mergeid.push_back(i);
+			distance.push_back(obj1);
+			distance.push_back(obj2);
+		}
+		dis.push_back(distance);
+
+	}
+	return dis;
+
+}*/
+vector<vector<int>> MeshObject::AnalysisOfSame(mat4 pos1, mat4 pos2, MeshObject obj) {
+
+	MeshObject obj1 = obj;
+	obj1.ChangePoint(pos1);
+	MeshObject obj2 = obj;
+	obj2.ChangePoint(pos2);
+
+	//依序號判斷彼此是否可以合並
+	//距離小於d為可合併
+	float d = 14;
+	MyMesh mesh;
+	mesh = model.mesh;
+	//vector<int> mergeid;
+	vector<vector<int>> dis;
+	for (int i = 0; i < obj1.structureFarEdgcontour.size(); i++) {
+		//每個點進行距離判斷，若距離小於d為可合併
+		MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*obj1.structureFarEdgcontour[i], 1);
+		MyMesh::Point obj1Vertex = mesh.point(mesh.from_vertex_handle(_hedge));
+		vec3 objp1 = glm::vec3(obj1Vertex[0], obj1Vertex[1], obj1Vertex[2]);
+		objp1 = mat4tovec3(pos1, objp1);
+
+		MyMesh::Point obj1Vertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+		vec3 objp2 = glm::vec3(obj1Vertex1[0], obj1Vertex1[1], obj1Vertex1[2]);
+		objp2 = mat4tovec3(pos1, objp2);
+
+		MyMesh::HalfedgeHandle _hedg = mesh.halfedge_handle(*obj2.structureFarEdgcontour[i], 1);
+		MyMesh::Point obj2Vertex = mesh.point(mesh.from_vertex_handle(_hedg));
+		vec3 objp3 = glm::vec3(obj2Vertex[0], obj2Vertex[1], obj2Vertex[2]);
+		objp3 = mat4tovec3(pos2, objp3);
+
+		MyMesh::Point obj2Vertex1 = mesh.point(mesh.to_vertex_handle(_hedg));
+		vec3 objp4 = glm::vec3(obj2Vertex1[0], obj2Vertex1[1], obj2Vertex1[2]);
+		objp4 = mat4tovec3(pos2, objp4);
+
+		bool mergeornot = false;
+
+		vector<int> distance;
+		int obj1 = 0, obj2 = 0;
+		int objdis = 0;
+		float objp1objp3 = abs(objp1[0] - objp3[0] + objp1[1] - objp3[1] + objp1[2] - objp3[2]);
+		float objp1objp4 = abs(objp1[0] - objp4[0] + objp1[1] - objp4[1] + objp1[2] - objp4[2]);
+		float objp2objp3 = abs(objp2[0] - objp3[0] + objp2[1] - objp3[1] + objp2[2] - objp3[2]);
+		float objp2objp4 = abs(objp2[0] - objp4[0] + objp2[1] - objp4[1] + objp2[2] - objp4[2]);
+		float dischose = objp1objp3;
+		if (objp1objp3 < d) {
+			obj1 = 1;
+			obj2 = 1;
+			mergeornot = true;
+		}
+		else if (objp1objp4 < d) {
+			obj1 = 1;
+			obj2 = 0;
+			mergeornot = true;
+		}
+		else if (objp2objp3 < d) {
+			obj1 = 0;
+			obj2 = 1;
+			mergeornot = true;
+		}
+		else if (objp2objp4 < d) {
+			obj1 = 0;
+			obj2 = 0;
+			mergeornot = true;
+		}
+
+		if (mergeornot) {
+			if (objp1objp4 > objp2objp4) {
+				obj2 = 1;
+			}
+			if (objp2objp3 > objp1objp4) {
+				obj1 = 1, obj2 = 0;
+			}if (objp2objp4 > objp2objp3) {
+				obj1 = 1, obj2 = 1;
+			}
+			mergeid.push_back(i);
+			distance.push_back(obj1);
+			distance.push_back(obj2);
+		}
+		distance.push_back(0);
+		dis.push_back(distance);
+	}
+	for (int j = 0; j < mergeid.size(); j++) {
+		int s = mergeid[j];
+		float neardist = 0.5;
+		MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*structureFarEdgcontour[mergeid[j]], 1);
+		MyMesh::Point obj1Vertex = mesh.point(mesh.from_vertex_handle(_hedge));
+		MyMesh::Point obj1Vertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+		vector<int> step;
+		if (dis[s].size() > 2) {
+			for (int z = j + 1; z < mergeid.size(); z++) {
+				MyMesh::HalfedgeHandle _hedg = mesh.halfedge_handle(*structureFarEdgcontour[mergeid[z]], 1);
+				MyMesh::Point obj2Vertex = mesh.point(mesh.from_vertex_handle(_hedg));
+				MyMesh::Point obj2Vertex1 = mesh.point(mesh.to_vertex_handle(_hedg));
+
+				if (abs(obj1Vertex[0] - obj2Vertex[0] + obj1Vertex[1] - obj2Vertex[1] + obj1Vertex[2] - obj2Vertex[2]) < neardist)
+				{
+					cout << "j" << j << " ,z" << z << " 1 :" << abs(obj1Vertex[0] - obj2Vertex[0] + obj1Vertex[1] - obj2Vertex[1] + obj1Vertex[2] - obj2Vertex[2]) << endl;
+					dis[mergeid[j]].push_back(mergeid[z]);
+					dis[mergeid[j]][2]++;
+				}
+				else if (abs(obj1Vertex[0] - obj2Vertex1[0] + obj1Vertex[1] - obj2Vertex1[1] + obj1Vertex[2] - obj2Vertex1[2]) < neardist)
+				{
+					cout << "j" << j << " ,z" << z << " 2 :" << abs(obj1Vertex[0] - obj2Vertex1[0] + obj1Vertex[1] - obj2Vertex1[1] + obj1Vertex[2] - obj2Vertex1[2]) << endl;
+					dis[mergeid[j]].push_back(mergeid[z]);
+					dis[mergeid[j]][2]++;
+				}
+				else if (abs(obj1Vertex1[0] - obj2Vertex[0] + obj1Vertex1[1] - obj2Vertex[1] + obj1Vertex1[2] - obj2Vertex[2]) < neardist)
+				{
+					cout << "j" << j << " ,z" << z << " 3 :" << abs(obj1Vertex1[0] - obj2Vertex[0] + obj1Vertex1[1] - obj2Vertex[1] + obj1Vertex1[2] - obj2Vertex[2]) << endl;
+					dis[mergeid[j]].push_back(mergeid[z]);
+					dis[mergeid[j]][2]++;
+				}
+				else if (abs(obj1Vertex1[0] - obj2Vertex1[0] + obj1Vertex1[1] - obj2Vertex1[1] + obj1Vertex1[2] - obj2Vertex1[2]) < neardist)
+				{
+					cout << "j" << j << " ,z" << z << " 4 :" << abs(obj1Vertex1[0] - obj2Vertex1[0] + obj1Vertex1[1] - obj2Vertex1[1] + obj1Vertex1[2] - obj2Vertex1[2]) << endl;
+					dis[mergeid[j]].push_back(mergeid[z]);
+					dis[mergeid[j]][2]++;
+				}
+
+			}
+		}
+	}
+	//dis.push_back(distance);
+	for (int i = 0; i < linegroups.size(); i++) {
+		//從line group找出與裝飾線相同的群組
+		for (int j = 0; j < detailEdgcontour.size(); j++) {
+			/*MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*detailEdgcontour[i], 1);
+			MyMesh::Point detailV = mesh.point(mesh.from_vertex_handle(_hedge));
+			MyMesh::Point detailV1 = mesh.point(mesh.to_vertex_handle(_hedge));*/
+		}
+	}
+
+	return dis;
+}
+
+void MeshObject::renderFarSameLine(mat4 pos1, mat4 pos2, vector<vector<int>>  sameObjectMerge, mat4 farnum, int nearfar, vec3 campos)
+{
+	MyMesh mesh;
+	mesh = model.mesh;
+	vector<MyMesh::Point> vertices;
+
+	drawSameObjV = 0;
+	int n = structureFarEdgcontour.size();
+	vector<int> gorun; gorun.resize(mergeid.size());
+	for (int i = 0; i < mergeid.size(); i++) {
+		MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*structureFarEdgcontour[mergeid[i]], 1);
+		MyMesh::Point obj1Vertex = mesh.point(mesh.from_vertex_handle(_hedge));
+		MyMesh::Point obj1Vertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+
+		MyMesh::HalfedgeHandle _hedg = mesh.halfedge_handle(*structureFarEdgcontour[mergeid[i]], 1);
+		MyMesh::Point obj2Vertex = mesh.point(mesh.from_vertex_handle(_hedg));
+		MyMesh::Point obj2Vertex1 = mesh.point(mesh.to_vertex_handle(_hedg));
+		if (gorun[i] != 1) {
+
+
+			if (sameObjectMerge[mergeid[i]][2] == 0) {
+				if (sameObjectMerge[mergeid[i]][0] == 0)
+				{
+					vec3 poin = glm::vec3(obj1Vertex[0], obj1Vertex[1], obj1Vertex[2]);
+
+					poin = mat4tovec3(pos1, poin);
+					vertices.push_back(MyMesh::Point(poin[0], poin[1], poin[2]));
+				}
+
+				else if (sameObjectMerge[mergeid[i]][0] == 1)
+				{
+					vec3 poin = glm::vec3(obj1Vertex1[0], obj1Vertex1[1], obj1Vertex1[2]);
+					poin = mat4tovec3(pos1, poin);
+					vertices.push_back(MyMesh::Point(poin[0], poin[1], poin[2]));
+				}
+				if (sameObjectMerge[mergeid[i]][1] == 0) {
+					vec3 poin = glm::vec3(obj2Vertex[0], obj2Vertex[1], obj2Vertex[2]);
+					poin = mat4tovec3(pos2, poin);
+					vertices.push_back(MyMesh::Point(poin[0], poin[1], poin[2]));
+				}
+				else if (sameObjectMerge[mergeid[i]][1] == 1) {
+					vec3 poin = glm::vec3(obj2Vertex1[0], obj2Vertex1[1], obj2Vertex1[2]);
+					poin = mat4tovec3(pos2, poin);
+					vertices.push_back(MyMesh::Point(poin[0], poin[1], poin[2]));
+				}
+				gorun[i] = 1;
+			}
+			else {
+				MyMesh::Point s1, s2, s3, s4;
+				if (sameObjectMerge[mergeid[i]][0] == 0)
+				{
+					vec3 poin = glm::vec3(obj1Vertex[0], obj1Vertex[1], obj1Vertex[2]);
+
+					s1 = MyMesh::Point(poin[0], poin[1], poin[2]);
+					//vertices.push_back(MyMesh::Point(poin[0], poin[1], poin[2]));
+				}
+				else if (sameObjectMerge[mergeid[i]][0] == 1)
+				{
+					vec3 poin = glm::vec3(obj1Vertex1[0], obj1Vertex1[1], obj1Vertex1[2]);
+					poin = mat4tovec3(pos1, poin);
+					s1 = MyMesh::Point(poin[0], poin[1], poin[2]);
+					//vertices.push_back(MyMesh::Point(poin[0], poin[1], poin[2]));
+				}
+				if (sameObjectMerge[mergeid[i]][1] == 0) {
+					vec3 poin = glm::vec3(obj2Vertex[0], obj2Vertex[1], obj2Vertex[2]);
+					poin = mat4tovec3(pos2, poin);
+					//vertices.push_back(MyMesh::Point(poin[0], poin[1], poin[2]));
+					s2 = MyMesh::Point(poin[0], poin[1], poin[2]);
+				}
+				else if (sameObjectMerge[mergeid[i]][1] == 1) {
+					vec3 poin = glm::vec3(obj2Vertex1[0], obj2Vertex1[1], obj2Vertex1[2]);
+					poin = mat4tovec3(pos2, poin);
+					//vertices.push_back(MyMesh::Point(poin[0], poin[1], poin[2]));
+					s2 = MyMesh::Point(poin[0], poin[1], poin[2]);
+				}
+
+				for (int j = 1; j <= sameObjectMerge[mergeid[i]][2]; j++) {
+					MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*structureFarEdgcontour[sameObjectMerge[mergeid[i]][2 + j]], 1);
+					MyMesh::Point obj1V = mesh.point(mesh.from_vertex_handle(_hedge));
+					MyMesh::Point obj1V1 = mesh.point(mesh.to_vertex_handle(_hedge));
+
+					MyMesh::HalfedgeHandle _hedg = mesh.halfedge_handle(*structureFarEdgcontour[sameObjectMerge[mergeid[i]][2 + j]], 1);
+					MyMesh::Point obj2V = mesh.point(mesh.from_vertex_handle(_hedg));
+					MyMesh::Point obj2V1 = mesh.point(mesh.to_vertex_handle(_hedg));
+					vec3 obj1pos, obj2pos;
+					if (sameObjectMerge[mergeid[i]][0] == 0)
+					{
+						obj1pos = glm::vec3(obj1V[0], obj1V[1], obj1V[2]);
+
+						/*if (nearfar == 0)
+							poin = mat4tovec3(pos1, poin);
+						else
+							poin = mat4tovec3(farnum, poin);
+						s3 = MyMesh::Point(poin[0], poin[1], poin[2]);*/
+						//vertices.push_back(MyMesh::Point(poin[0], poin[1], poin[2]));
+					}
+					else if (sameObjectMerge[mergeid[i]][0] == 1)
+					{
+						obj1pos = glm::vec3(obj1V1[0], obj1V1[1], obj1V1[2]);
+
+						/*if (nearfar == 0)
+							poin = mat4tovec3(farnum, poin);
+						else
+							poin = mat4tovec3(pos1, poin);
+						s3 = MyMesh::Point(poin[0], poin[1], poin[2]);*/
+						//vertices.push_back(MyMesh::Point(poin[0], poin[1], poin[2]));
+					}
+
+					if (sameObjectMerge[mergeid[i]][1] == 0) {
+						obj2pos = glm::vec3(obj2V[0], obj2V[1], obj2V[2]);
+						/*if (nearfar == 0)
+							poin = mat4tovec3(farnum, poin);
+						else
+							poin = mat4tovec3(pos2, poin);
+						//vertices.push_back(MyMesh::Point(poin[0], poin[1], poin[2]));
+						s4 = MyMesh::Point(poin[0], poin[1], poin[2]);*/
+					}
+					else if (sameObjectMerge[mergeid[i]][1] == 1) {
+						obj2pos = glm::vec3(obj2V1[0], obj2V1[1], obj2V1[2]);
+
+						/*if (nearfar == 1)
+							poin = mat4tovec3(pos2, poin);
+						else
+							poin = mat4tovec3(farnum, poin);
+						//vertices.push_back(MyMesh::Point(poin[0], poin[1], poin[2]));
+						s4 = MyMesh::Point(poin[0], poin[1], poin[2]);*/
+					}
+					/*obj1pos= mat4tovec3(pos1, obj1pos);
+					s3 = MyMesh::Point(obj1pos[0], obj1pos[1], obj1pos[2]);
+					obj2pos = mat4tovec3(pos2, obj2pos);
+					s4 = MyMesh::Point(obj2pos[0], obj2pos[1], obj2pos[2]);*/
+					vec3 obj1start, obj1mid, obj1end;
+					vec3 obj2start, obj2mid, obj2end;
+					obj1start = mat4tovec3(pos1, obj1pos);
+					obj1mid = mat4tovec3(farnum, obj1pos);
+					obj1end = mat4tovec3(pos2, obj1pos);
+					obj2start = mat4tovec3(pos1, obj1pos);
+					obj2mid = mat4tovec3(farnum, obj1pos);
+					obj2end = mat4tovec3(pos2, obj1pos);
+					s3 = MyMesh::Point(obj1start[0], obj1start[1], obj1start[2]);
+					s4 = MyMesh::Point(obj1end[0], obj1end[1], obj1end[2]);
+					/*
+					if (dist(obj1start, campos) < dist(obj2start, campos))
+					{
+						//obj1pos = mat4tovec3(pos1, obj1pos);
+						if (dist(obj1start, campos) < dist(obj1end, campos))
+						{
+
+							s3 = MyMesh::Point(obj1start[0], obj1start[1], obj1start[2]);
+							s4 = MyMesh::Point(obj1mid[0], obj1mid[1], obj1mid[2]);
+						}
+						else {
+							s3 = MyMesh::Point(obj1mid[0], obj1mid[1], obj1mid[2]);
+							s4 = MyMesh::Point(obj1end[0], obj1end[1], obj1end[2]);
+						}
+					}
+					else {
+						//obj1pos = mat4tovec3(pos1, obj1pos);
+						s3 = MyMesh::Point(obj2start[0], obj2start[1], obj2start[2]);
+						s4 = MyMesh::Point(obj2mid[0], obj2mid[1], obj2mid[2]);
+
+					}
+					*/
+
+					for (int z = 0; z < gorun.size(); z++) {
+						//cout << "sameObjectMerge[mergeid[i]][2+j]" << sameObjectMerge[mergeid[i]][2 + j] << "     mergeid[z]" << mergeid[z] << endl;
+						if (sameObjectMerge[mergeid[i]][2 + j] == mergeid[z]) {
+
+							gorun[z] = 1;
+							vertices.push_back(s3);
+							vertices.push_back(s4);
+							break;
+						}
+					}
+
+				}
+				vertices.push_back(s1);
+				vertices.push_back(s2);
+			}
+		}
+	}
+
+
+
+	glGenVertexArrays(1, &drawSameObj);
+	glBindVertexArray(drawSameObj);
+
+	glGenBuffers(1, &drawSameObjV);
+	glBindBuffer(GL_ARRAY_BUFFER, drawSameObjV);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(MyMesh::Point) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+	glBindVertexArray(drawSameObj);
+	glLineWidth(5);
+	//glDrawElements(GL_LINES, edgcontour.size(), GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_LINES, 0, model.mesh.n_edges());// model.mesh.n_edges()
+	glBindVertexArray(0);
+}
+
+vector<MyMesh::EdgeIter> MeshObject::Construct(std::vector<MyMesh::EdgeIter> edges)
+{
+	MyMesh mesh;
+	int n = edges.size();
+	vector<MyMesh::EdgeIter> ans;
+	for (int i = 0; i < edges.size(); i++) {
+
+		MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*edges[i], 1);
+		MyMesh::Point curVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+		MyMesh::Point otherVertex = mesh.normal(mesh.from_vertex_handle(_hedge));
+		MyMesh::Point otherVertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+		ply.push_back(vec3(curVertex[0], curVertex[1], curVertex[2]));
+		ply.push_back(vec3(otherVertex1[0], otherVertex1[1], otherVertex1[2]));
+	}
+	double PR = 1e-8;
+
+
+	bool tmp = true;
+	fac add;
+	for (int i = 0; i < 4; i++) //構建初始四面體
+	{
+		add.a = (i + 1) % 4; add.b = (i + 2) % 4; add.c = (i + 3) % 4; add.ok = true;
+		if ((ptoplane(ply[i], add)) > 0)
+		{
+			width = ptoplane(ply[i], add);
+			int swap = add.b;
+			add.b = add.c;
+			add.c = swap;
+		}
+
+		vis[add.a][add.b] = vis[add.b][add.c] = vis[add.c][add.a] = trianglecnt;
+		tri[trianglecnt++] = add;
+	}
+	for (int i = 4; i < n; i++) //構建更新凸包
+	{
+		for (int j = 0; j < trianglecnt; j++)
+		{
+			if (tri[j].ok && (ptoplane(ply[i], tri[j])) > PR)
+			{
+				dfs(i, j);
+				width = ptoplane(ply[i], tri[j]);
+				break;
+			}
+		}
+	}
+	int cnt = trianglecnt;
+	trianglecnt = 0;
+	for (int i = 0; i < cnt; i++)
+	{
+		if (tri[i].ok)
+		{
+			tri[trianglecnt++] = tri[i];
+		}
+	}
+	//返回convex edge
+
+	for (int i = 0; i < edges.size(); i++) {
+
+		MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*edges[i], 1);
+		MyMesh::Point curVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+		MyMesh::Point otherVertex = mesh.normal(mesh.from_vertex_handle(_hedge));
+		MyMesh::Point otherVertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+		vec3 p1 = vec3(curVertex[0], curVertex[1], curVertex[2]);
+		vec3 p2 = vec3(otherVertex1[0], otherVertex1[1], otherVertex1[2]);
+		bool p1has, p2has = false;
+		for (int j = 0; j < trianglecnt; j++) {
+			if (p1 == ply[j])
+				p1has = true;
+			else if (p2 == ply[j])
+				p2has = true;
+		}
+		if (p1has && p2has)
+			ans.push_back(edges[i]);
+	}
+	return ans;
+	return vector<MyMesh::EdgeIter>();
+}
+
+void MeshObject::contourShader()
+{
+	MyMesh mesh;
+	mesh = model.mesh;
+	std::vector<MyMesh::Point> vertices;
+	std::vector<MyMesh::Normal> normals;
+
+	for (int i = 0; i < edgcontour.size(); i++)
+	{
+		MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*edgcontour[i], 1);
+
+		MyMesh::Point curVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+		vertices.push_back(curVertex);
+		normals.push_back(mesh.normal(mesh.from_vertex_handle(_hedge)));
+		curVertex = mesh.point(mesh.to_vertex_handle(_hedge));
+		vertices.push_back(curVertex);
+		normals.push_back(mesh.normal(mesh.to_vertex_handle(_hedge)));
+	}
+	glGenVertexArrays(1, &contourvao);
+	glBindVertexArray(contourvao);
+
+	glGenBuffers(1, &contourV);
+	glBindBuffer(GL_ARRAY_BUFFER, contourV);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(MyMesh::Point) * vertices.size(), &vertices[0], GL_DYNAMIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+bool line_parallel(MyMesh::Point line1P1, const MyMesh::Point line1P2, const MyMesh::Point line2P1, const MyMesh::Point line2P2) {
+	MyMesh::Point v1 = (line1P2 - line1P1).normalize();
+	MyMesh::Point v2 = (line2P2 - line2P1).normalize();
+	int dotwo = (v1 | v2);
+	if (abs(v1 | v2) == 1)
+	{
+		//兩線平行
+		return true;
+	}
+
+	else
+		return false;
+}
+
+void MeshObject::contourRule()
+{
+	/*MyMesh mesh;
+	mesh = model.mesh;
+	std::vector<MyMesh::EdgeIter> stepEdge;
+	std::vector<MyMesh::EdgeIter> deletEdge;//被刪除的邊，若邊界的contour與刪除的邊平行就刪除
+	stepEdge = edgcontour;
+	edgcontour.clear();
+	//判斷平行線
+	for (int i = 0; i < stepEdge.size(); i++) {
+		bool inisparallelinvectorstep = false;
+		MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(stepEdge[i].handle(), 0);
+
+		MyMesh::Point vh1 = mesh.point(mesh.from_vertex_handle(_hedge));
+
+		MyMesh::Point vh2 = mesh.point(mesh.to_vertex_handle(_hedge));
+		double dantance0 = sqrt(pow(vh2[0] - vh1[0], 2) + pow(vh2[1] - vh1[1], 2) + pow(vh2[2] - vh1[2], 2));
+		for (int j = 0; j < deletEdge.size(); j++) {
+			MyMesh::HalfedgeHandle _hedge2 = mesh.halfedge_handle(deletEdge[j].handle(), 0);
+
+			MyMesh::Point vh21 = mesh.point(mesh.from_vertex_handle(_hedge2));
+
+			MyMesh::Point vh22 = mesh.point(mesh.to_vertex_handle(_hedge2));
+			double dantance1 = sqrt(pow(vh22[0] - vh21[0], 2) + pow(vh22[1] - vh21[1], 2) + pow(vh22[2] - vh21[2], 2));
+
+			if (dantance0 == dantance1)
+			{
+				if (line_parallel(vh1, vh2, vh21, vh22)) {
+					inisparallelinvectorstep = true;
+					break;
+				}
+			}
+		}
+		if (inisparallelinvectorstep == false)
+			edgcontour.push_back(stepEdge[i]);
+	}*/
+}
+
+
+
+void MeshObject::RenderParameterized()
+{
+	if (model.mesh.has_vertex_texcoords2D())
+	{
+		glBindVertexArray(model.vao);
+		glMultiDrawElements(GL_TRIANGLES, &elemCount[0], GL_UNSIGNED_INT, (const GLvoid**)&fvIDsPtr[0], elemCount.size());
+		glBindVertexArray(0);
+	}
+}
+
+

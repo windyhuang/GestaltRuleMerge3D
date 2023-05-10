@@ -1,0 +1,96 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(477,5): warning MSB8004: Output 目錄結尾不是結尾斜線。這個建置執行個體將會加入此斜線，因為這樣才能正確評估 Output 目錄。
+  MeshObject.cpp
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(237,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(260,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(265,23): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(272,68): warning C4244: '引數': 將 '_Ty' 轉換為 'const _Ty'，由於類型不同，可能導致資料遺失
+          with
+          [
+              _Ty=int
+          ]
+          and
+          [
+              _Ty=float
+          ]
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(296,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(319,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.h(465,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(251,25): warning C4305: '正在初始化': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(252,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(261,22): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(262,25): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(297,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(303,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(318,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(321,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(403,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(406,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(416,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(433,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(457,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(475,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(476,16): warning C4018: '>=': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(513,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(522,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(531,29): warning C4553: '==': 未使用運算式結果; 您是否想要 '='?
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(533,29): warning C4553: '==': 未使用運算式結果; 您是否想要 '='?
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(535,29): warning C4553: '==': 未使用運算式結果; 您是否想要 '='?
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(537,29): warning C4553: '==': 未使用運算式結果; 您是否想要 '='?
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(539,29): warning C4553: '==': 未使用運算式結果; 您是否想要 '='?
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(589,22): warning C4018: '>=': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(685,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(692,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(740,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(774,33): warning C4305: '引數': 從 'double' 轉換為 'GLfloat'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(927,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(947,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(955,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(976,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(979,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(995,26): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1048,22): warning C4553: '==': 未使用運算式結果; 您是否想要 '='?
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1075,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1077,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1119,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1159,15): warning C4305: '正在初始化': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1165,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1175,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1217,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1235,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1237,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1248,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1342,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1388,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1421,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1423,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1424,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1431,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1472,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1606,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1612,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1643,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1645,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1666,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1675,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1705,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1709,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1781,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1840,18): warning C4018: '>=': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1905,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1921,24): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(1959,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(2010,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(2053,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(2104,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(2134,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(2160,12): warning C4244: '正在初始化': 將 'Scalar' 轉換為 'int'，由於類型不同，可能導致資料遺失
+          with
+          [
+              Scalar=float
+          ]
+  ViewManager.cpp
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\ViewManager.cpp(134,14): warning C4244: '引數': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\ViewManager.cpp(139,14): warning C4244: '引數': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\ViewManager.cpp(283,18): warning C4244: '=': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
+  正在產生程式碼...
+D:\XinYun\Desktop\2023.04.28\2023.04.28\2023.04.20\Program\Source\TextureParameterization\MeshObject.cpp(970): error C4716: 'MeshObject::go_lineTree': 必須傳回值

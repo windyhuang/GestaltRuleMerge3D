@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6E499534-9EA5-425F-AD65-D3C896F77FAA}</ProjectGuid>
+    <RootNamespace>TextureParameterization</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="..\BasicTexture\common.props" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="..\BasicTexture\common.props" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="..\BasicTexture\common.props" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="..\BasicTexture\common.props" />
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <StackReserveSize>
+      </StackReserveSize>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Common.cpp" />
+    <ClCompile Include="..\..\Source\ResourcePath.cpp" />
+    <ClCompile Include="..\..\Source\ShaderObject.cpp" />
+    <ClCompile Include="..\..\Source\TextureParameterization\Bezier_ProceduralShader.cpp" />
+    <ClCompile Include="..\..\Source\TextureParameterization\BlendingShader.cpp" />
+    <ClCompile Include="..\..\Source\TextureParameterization\CameraControl.cpp" />
+    <ClCompile Include="..\..\Source\TextureParameterization\DrawModelLineShader.cpp" />
+    <ClCompile Include="..\..\Source\TextureParameterization\DrawModelShader.cpp" />
+    <ClCompile Include="..\..\Source\TextureParameterization\DrawPickingFaceShader.cpp" />
+    <ClCompile Include="..\..\Source\TextureParameterization\DrawTextureShader.cpp" />
+    <ClCompile Include="..\..\Source\TextureParameterization\OpenMesh.cpp" />
+    <ClCompile Include="..\..\Source\TextureParameterization\ParametricNode.cpp" />
+    <ClCompile Include="..\..\Source\TextureParameterization\PickingShader.cpp" />
+    <ClCompile Include="..\..\Source\TextureParameterization\PickingTexture.cpp" />
+    <ClCompile Include="..\..\Source\TextureParameterization\main.cpp" />
+    <ClCompile Include="..\..\Source\TextureParameterization\MeshObject.cpp" />
+    <ClCompile Include="..\..\Source\tiny_obj_loader.cpp" />
+    <ClCompile Include="..\..\Source\ViewManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\TextureParameterization\BasicShader.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\Bezier_ProceduralShader.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\BlendingShader.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\CameraControl.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\Convex.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\DrawModelLineShader.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\DrawModelShader.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\DrawPickingFaceShader.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\DrawTextureShader.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\GlmMath.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\ShapeModel.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\ParametricNode.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\PickingShader.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\PickingTexture.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\MeshObject.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\OpenMesh.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\RelationTreeNode.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\RuleMath.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\TreeNode.h" />
+    <ClInclude Include="..\..\Source\TextureParameterization\VecMath.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Assets\Shader\TextureParameterization\bezier_Procedural.fs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\bezier_Procedural.gs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\bezier_Procedural.tcs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\bezier_Procedural.tes.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\bezier_Procedural.vs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\Blending_Example.fs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\Blending_Example.vs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawLines.fs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawLines.gs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawLines.tcs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawLines.tes.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawLines.vs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawModel.fs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawModel.gs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawModel.vs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawModelGray.fs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawModelGray.vs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawPickingFace.fs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawPickingFace.gs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawPickingFace.vs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawTexture.fs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\drawTexture.vs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\picking.fs.glsl" />
+    <None Include="..\..\Assets\Shader\TextureParameterization\picking.vs.glsl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
