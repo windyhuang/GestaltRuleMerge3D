@@ -12,7 +12,7 @@ CameraControl::CameraControl()
 	moveSpeed = 5.0f;
 	lmbDown = false;
 	midDown = false;
-	eyePosition = vec3(0.0f, 0.0f, 10.0f);
+	eyePosition = vec3(0.0f, 0.0f, 30.0f);
 	eyeLookPosition = vec3(0.0f, 0.0f, 0.0f);
 	vec3 up = vec3(0, 1, 0);
 	viewMatrix = lookAt(eyePosition, eyeLookPosition, up);

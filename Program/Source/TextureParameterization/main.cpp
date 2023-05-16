@@ -45,7 +45,7 @@ GLuint ground_vao;
 GLuint VBO, VAO, EBO;
 //unsigned int modeltexture, linetexture
 CameraControl		meshWindowCam;
-
+int windowNum, floorsNum, LodT;
 ofstream modellinefile, modelposfile, gestaltrulefile;//存取線群與模型的位置圖給unity
 
 vector<vec4> colors = { vec4(0,1,1,1) , vec4(0,1,0,1),vec4(0,0,1,1),
@@ -120,18 +120,11 @@ void setupGUI()
 
 	// ATB identifier for the array
 	TwType meshLineTwType = TwDefineEnum("MeshType", Meshes, 3);
-
-	/*for (int i = 0; i < model.meshEdgeGroup.size(); i++) {
-		// Link it to the tweak bar
-		if (model.meshEdgeGroup[i].verticallines == true)
-			m_currentMesh = vertical;
-		else if (model.meshEdgeGroup[i].structlines == true)
-			m_currentMesh = horizontal;
-		else
-			m_currentMesh = notshow;
-		TwAddVarRW(bar, "meshEdgeGroup" + i, meshLineTwType, &m_currentMesh, NULL);
-	}*/
-
+	
+	// Adding variables to the tweak bar
+	TwAddVarRW(bar, "Window Number", TW_TYPE_INT32, &windowNum, " label='Number of Windows' min=0 max=200 step=1 ");
+	TwAddVarRW(bar, "Floor Number", TW_TYPE_INT32, &floorsNum, " label='Number of Floors' min=0 max=100 step=1 ");
+	TwAddVarRW(bar, "LodT Number", TW_TYPE_INT32, &LodT, " label='Number of LodT' min=0 max=100 step=1 ");
 
 }
 
@@ -850,7 +843,6 @@ void BuildHouseWindow() {
 	int num_parts = 10;
 	int num_divisions = 30;
 	vec3 startpos = vec3(0, 0, 0);
-	// Compute wall normals
 	std::vector<vec3> wall_normals = {
 		{0, 1, 0},
 		{0, 3, 0},
@@ -865,9 +857,9 @@ void BuildHouseWindow() {
 	BoundingBox bx;
 	bx.min = models[0].mat4tovec3(mvMat, models[0].objBounding.minbounding);
 	bx.max = models[0].mat4tovec3(mvMat, models[0].objBounding.maxbounding);
-	float minz = models[0].objBounding.minz; float maxz = models[0].objBounding.manz;//float minz = bx.min.z; float maxz = bx.max.z;
-	float minx = models[0].objBounding.minx; float maxx = models[0].objBounding.manx;// float minx = bx.min.x; float maxx = bx.max.x;
-	float miny = models[0].objBounding.miny; float maxy = models[0].objBounding.many;// float miny = bx.min.y; float maxy = bx.max.y;
+	float minz = models[0].objBounding.minz; float maxz = models[0].objBounding.manz;
+	float minx = models[0].objBounding.minx; float maxx = models[0].objBounding.manx;
+	float miny = models[0].objBounding.miny; float maxy = models[0].objBounding.many;
 	houseTree.childNodes.resize(num_parts);
 
 	similarityNodes.resize(models.size());
@@ -885,8 +877,8 @@ void BuildHouseWindow() {
 		houseTree.childNodes[i].normal = vec3(0, 0, 0);
 		houseTree.childNodes[i].treeNodeID = buildid;
 		nodes.push_back(houseTree.childNodes[i]);
-		similarityNodes[0].childNodes.push_back(houseTree.childNodes[i]);		
-		similarityNodes[0].volume+= models[0].objBounding.volume;
+		similarityNodes[0].childNodes.push_back(houseTree.childNodes[i]);
+		similarityNodes[0].volume += models[0].objBounding.volume;
 		common_orientationNode[0].childNodes.push_back(houseTree.childNodes[i]);
 		proximityNodes[0].childNodes.push_back(houseTree.childNodes[i]);
 		allvolume += models[0].objBounding.volume;
@@ -897,7 +889,7 @@ void BuildHouseWindow() {
 		ParametricNode p;
 		string name = "window";
 		int division = 0;
-		
+
 		vec3 buildmin = vec3(99, 99, 99); vec3 buildmax = vec3(-99, -99, -99);
 		for (int j = 0; j < num_divisions - 1; j++) {
 			p.meshnum = 1;
@@ -1041,32 +1033,20 @@ void BuildHouseWindow() {
 	vector<BoundingBox> bbox; bbox.resize(nodes.size());
 	//全部建築的bounding box，找到最外圍的min與max的vec3算體積，之後算兩個物件的平滑度成本
 	vec3 buildmin = vec3(99, 99, 99); vec3 buildmax = vec3(-99, -99, -99);
-	
+
 	for (int i = 0; i < similarityNodes.size(); i++) {
 		vector<vec3> normalstep;
 		vector<TreeNode> nodeStep;
-		
-		/*TreeNode it = similarityNodes[i].childNodes.begin();
-		while (it != similarityNodes[i].childNodes.end()) {
-			if (normalstep.size() == 0)
-			{
-				TreeNode snode;
-				normalstep.push_back(it.normal);
-				snode.childNodes.push_back(it);//models[p3.meshnum].objBounding.volume
-				snode.volume = models[similarityNodes[i].childNodes[j].parmetricNode.meshnum].objBounding.volume;
-				nodeStep.push_back(snode);
 
-			}
-		}*/
 		for (int j = 0; j < similarityNodes[i].childNodes.size(); j++) {
 			if (normalstep.size() == 0)
 			{
 				TreeNode snode;
 				normalstep.push_back(similarityNodes[i].childNodes[j].normal);
-				snode.childNodes.push_back(similarityNodes[i].childNodes[j]);//models[p3.meshnum].objBounding.volume
+				snode.childNodes.push_back(similarityNodes[i].childNodes[j]);
 				snode.volume = models[similarityNodes[i].childNodes[j].parmetricNode.meshnum].objBounding.volume;
 				nodeStep.push_back(snode);
-				
+
 			}
 			else {
 				bool isinstep = false;
@@ -1076,7 +1056,7 @@ void BuildHouseWindow() {
 					{
 						isinstep = true;
 						nodeStep[k].childNodes.push_back(similarityNodes[i].childNodes[j]);
-						nodeStep[k].volume+= models[similarityNodes[i].childNodes[j].parmetricNode.meshnum].objBounding.volume;
+						nodeStep[k].volume += models[similarityNodes[i].childNodes[j].parmetricNode.meshnum].objBounding.volume;
 					}
 				}
 				if (isinstep == false)
@@ -1113,7 +1093,7 @@ void BuildHouseWindow() {
 			{
 				TreeNode snode;
 				normalstep.push_back(proximityNodes[i].childNodes[j].normal);
-				snode.childNodes.push_back(proximityNodes[i].childNodes[j]);//models[p3.meshnum].objBounding.volume
+				snode.childNodes.push_back(proximityNodes[i].childNodes[j]);
 				snode.volume = models[proximityNodes[i].childNodes[j].parmetricNode.meshnum].objBounding.volume;
 				nodeStep.push_back(snode);
 				hasid.push_back(proximityNodes[i].childNodes[j].treeNodeID);
@@ -1305,12 +1285,7 @@ void InitData()
 		models[i].ObjectBounding();
 	}
 
-
-	//ProceduralTestBuild();
-	//RoofTestBuild();
-	//RoofSurfaceBuildP();
 	BuildHouseWindow();
-	//setupBuffer();
 	modellinefile.open("modelline2.txt"); modelposfile.open("modelpos2.txt"); gestaltrulefile.open("gestaltrule.txt");
 	if (!modellinefile.is_open()) {
 		cout << "Failed to modellinefile open file.\n";
@@ -2245,115 +2220,7 @@ float GetObjectInViewPercentage(BoundingBox boundbox, mat4 viewProjMatrix)
 }
 
 
-void drawModel(TreeNode p, int interval) {
-	vec3 campos = meshWindowCam.GetWorldEyePosition();
-	glm::mat4 mvMat = meshWindowCam.GetViewMatrix() * meshWindowCam.GetModelMatrix();
-	glm::mat4 pMat = meshWindowCam.GetProjectionMatrix(aspect);
-	glm::mat4 vMat = meshWindowCam.GetViewMatrix();
-	glm::mat4 modelMat = meshWindowCam.GetModelMatrix();
-	float uvRotateAngle = 0.0;
-	float prevUVRotateAngle = 0.0;
-	float radian = uvRotateAngle * M_PI / 190.0f;
-	glm::mat4 uvRotMat = glm::rotate(radian, glm::vec3(0.0, 0.0, 1.0));
-	if (p.parmetricNode.generateNum > 0) {
-		float areaView = GetObjectInViewPercentage(p.boundbox, pMat);
-		vector<vec3> elepos;
-		int step = 0;
-		step = 1;
-		/*if (areaView > 0.5)
-		{
-			step = 1;
-		}
-		else if (areaView > 0.25)
-		{
-			//step = 2* interval;
-			if (interval % 2 != 0)
-				step = interval;
-			else
-				step = 2;
-		}
-		else if (areaView > 0.1)
-		{
-			//step = 3* interval;
-			if (interval % 4 != 0)
-				step = interval;
-			else
-				step = 4;
-		}
-		else if (areaView > 0.01)
-		{
-			if (interval % 5 != 0)
-				step = interval;
-			else
-				step = 5;
-		}
-		else {
-			step = 20;
-		}
-		if (step > interval) interval = step;
-		*/
-
-		for (int i = 0; i < p.parmetricNode.generateNum; i += step)
-		{
-			drawModelShader.Enable();
-			drawModelShader.SetWireColor(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-			drawModelShader.UseLighting(false);
-			drawModelShader.DrawTexCoord(false);
-			drawModelShader.DrawWireframe(false);
-			drawModelShader.SetPMat(pMat);
-			drawModelShader.SetUVRotMat(uvRotMat);
-			glBindTexture(GL_TEXTURE_2D, modeltexture);
-			glm::mat4 modelMatm = modelMat;
-			modelMatm = modelMat;
-			drawModelShader.SetFaceColor(colors[1]);//6
-			modelMatm = glm::scale(modelMatm, models[p.parmetricNode.meshnum].scareObj);
-			modelMatm = glm::translate(modelMatm, glm::vec3(p.parmetricNode.generatePos) + vec3(p.parmetricNode.generateDirection[0].x * i, p.parmetricNode.generateDirection[0].y * i, p.parmetricNode.generateDirection[0].z * i));
-			if (p.parmetricNode.generateNormal != vec3(0, 0, 0))
-				modelMatm = glm::rotate(modelMatm, glm::radians((float)(90 * p.parmetricNode.generateNormal.y)), glm::vec3(p.parmetricNode.generateNormal));
-
-			mvMat = vMat * modelMatm;
-			glm::mat3 normalMat = glm::transpose(glm::inverse(glm::mat3(mvMat)));
-			drawModelShader.SetNormalMat(normalMat);
-			drawModelShader.SetMVMat(mvMat);
-
-			models[p.parmetricNode.meshnum].Render();
-			glBindTexture(GL_TEXTURE_2D, 0);
-			drawModelShader.Disable();
-			/*if (step == 20 || i + step > p.parmetricNode.generateNum)
-			{
-				drawModelShader.Enable();
-				drawModelShader.SetWireColor(glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
-				drawModelShader.UseLighting(false);
-				drawModelShader.DrawTexCoord(false);
-				drawModelShader.DrawWireframe(false);
-				drawModelShader.SetPMat(pMat);
-				drawModelShader.SetUVRotMat(uvRotMat);
-				glBindTexture(GL_TEXTURE_2D, modeltexture);
-				glm::mat4 modelMatm = modelMat;
-				modelMatm = modelMat;
-				drawModelShader.SetFaceColor(colors[6]);
-				modelMatm = glm::scale(modelMatm, models[p.parmetricNode.meshnum].scareObj);
-				modelMatm = glm::translate(modelMatm, glm::vec3(p.parmetricNode.generatePos) + vec3(p.parmetricNode.generateDirection[0].x * p.parmetricNode.generateNum, p.parmetricNode.generateDirection[0].y * p.parmetricNode.generateNum, p.parmetricNode.generateDirection[0].z * p.parmetricNode.generateNum));
-				if (p.parmetricNode.generateNormal != vec3(0, 0, 0))
-					modelMatm = glm::rotate(modelMatm, glm::radians((float)(90 * p.parmetricNode.generateNormal.y)), glm::vec3(p.parmetricNode.generateNormal));
-
-				mvMat = vMat * modelMatm;
-				glm::mat3 normalMat = glm::transpose(glm::inverse(glm::mat3(mvMat)));
-				drawModelShader.SetNormalMat(normalMat);
-				drawModelShader.SetMVMat(mvMat);
-
-				models[p.parmetricNode.meshnum].Render();
-				glBindTexture(GL_TEXTURE_2D, 0);
-				drawModelShader.Disable();
-			}
-			*/
-		}
-	}
-	if (p.childNodes.size() > 0) {
-		for (int i = 0; i < p.childNodes.size(); i++)
-			drawModel(p.childNodes[i], interval);
-	}
-}
+void drawModel(TreeNode p, int interval){}
 void drawModel(TreeNode p) {
 	vec3 campos = meshWindowCam.GetWorldEyePosition();
 	glm::mat4 mvMat = meshWindowCam.GetViewMatrix() * meshWindowCam.GetModelMatrix();
@@ -2449,7 +2316,7 @@ void computeBoundingBox(std::vector<vec3>& lineSegments, float& minX, float& min
 }
 
 // Merge two bounding boxes in 3D space into a single bounding box
-void mergeBoundingBoxes(vector<vec3>& lineSegments1, vector<vec3>& lineSegments2, vector<vec3>& mergedBoundingBox) {
+/*void mergeBoundingBoxes(vector<vec3>& lineSegments1, vector<vec3>& lineSegments2, vector<vec3>& mergedBoundingBox) {
 	float minX1, minY1, minZ1, maxX1, maxY1, maxZ1;
 	computeBoundingBox(lineSegments1, minX1, minY1, minZ1, maxX1, maxY1, maxZ1);
 
@@ -2464,48 +2331,73 @@ void mergeBoundingBoxes(vector<vec3>& lineSegments1, vector<vec3>& lineSegments2
 	double maxZ = std::max(maxZ1, maxZ2);
 
 	// Add the twelve line segments of the merged bounding box
-	/*mergedBoundingBox.push_back({ minX, minY, minZ });
-	mergedBoundingBox.push_back({ maxX, minY, minZ });
-	mergedBoundingBox.push_back({ maxX, maxY, minZ });
-	mergedBoundingBox.push_back({ minX, maxY, minZ });
-	mergedBoundingBox.push_back({ minX, minY, maxZ });
-	mergedBoundingBox.push_back({ maxX, minY, maxZ });
-	mergedBoundingBox.push_back({ maxX, maxY, maxZ });
-	mergedBoundingBox.push_back({ minX, maxY, maxZ });
-	mergedBoundingBox.push_back({ minX, minY, minZ });
-	mergedBoundingBox.push_back({ minX, minY, maxZ });
-	mergedBoundingBox.push_back({ maxX, minY, maxZ });
-	mergedBoundingBox.push_back({ maxX, minY, minZ });
-	mergedBoundingBox.push_back({ maxX, minY, maxZ });
-	mergedBoundingBox.push_back({ maxX, maxY, maxZ });
-	mergedBoundingBox.push_back({ maxX, maxY, minZ });*/
+	
 
-	mergedBoundingBox.push_back({ minX, minY, minZ });
-	mergedBoundingBox.push_back({ minX, maxY, minZ });
-	mergedBoundingBox.push_back({ minX, maxY, minZ });
-	mergedBoundingBox.push_back({ maxX, maxY, minZ });
-	mergedBoundingBox.push_back({ maxX, maxY, minZ });
-	mergedBoundingBox.push_back({ maxX, minY, minZ });
-	mergedBoundingBox.push_back({ maxX, minY, minZ });
-	mergedBoundingBox.push_back({ minX, minY, minZ });
+	// Add the twelve line segments of the merged bounding box
+	vec3 minP = { minX, minY, minZ };
+	vec3 maxP = { maxX, maxY, maxZ };
 
-	mergedBoundingBox.push_back({ minX, minY, maxZ });
-	mergedBoundingBox.push_back({ minX, maxY, maxZ });
-	mergedBoundingBox.push_back({ minX, maxY, maxZ });
-	mergedBoundingBox.push_back({ maxX, maxY, maxZ });
-	mergedBoundingBox.push_back({ maxX, maxY, maxZ });
-	mergedBoundingBox.push_back({ maxX, minY, maxZ });
-	mergedBoundingBox.push_back({ maxX, minY, maxZ });
-	mergedBoundingBox.push_back({ minX, minY, maxZ });
+	
+	vec3 vertices[] = {
+		{ minP.x, minP.y, minP.z },
+		{ minP.x, maxP.y, minP.z },
+		{ maxP.x, maxP.y, minP.z },
+		{ maxP.x, minP.y, minP.z },
+		{ minP.x, minP.y, maxP.z },
+		{ minP.x, maxP.y, maxP.z },
+		{ maxP.x, maxP.y, maxP.z },
+		{ maxP.x, minP.y, maxP.z }
+	};
 
-	mergedBoundingBox.push_back({ minX, minY, minZ });
-	mergedBoundingBox.push_back({ minX, minY, maxZ });
-	mergedBoundingBox.push_back({ minX, maxY, minZ });
-	mergedBoundingBox.push_back({ minX, maxY, maxZ });
-	mergedBoundingBox.push_back({ maxX, minY, minZ });
-	mergedBoundingBox.push_back({ maxX, minY, maxZ });
-	mergedBoundingBox.push_back({ maxX, maxY, minZ });
-	mergedBoundingBox.push_back({ maxX, maxY, maxZ });
+	int indices[] = {
+		0, 1, 1, 2, 2, 3, 3, 0,
+		4, 5, 5, 6, 6, 7, 7, 4,
+		0, 4, 1, 5, 2, 6, 3, 7
+	};
+	for (int i = 0; i < 24; i++) {
+		mergedBoundingBox.push_back(vertices[indices[i]]);
+	}
+}*/
+void mergeBoundingBoxes(vector<vec3>& lineSegments1, vector<vec3>& lineSegments2, vector<vec3>& mergedBoundingBox) {
+	// Compute the bounding boxes of the two sets of line segments
+	float minX1, minY1, minZ1, maxX1, maxY1, maxZ1;
+	computeBoundingBox(lineSegments1, minX1, minY1, minZ1, maxX1, maxY1, maxZ1);
+	float minX2, minY2, minZ2, maxX2, maxY2, maxZ2;
+	computeBoundingBox(lineSegments2, minX2, minY2, minZ2, maxX2, maxY2, maxZ2);
+
+	// Compute the minimum and maximum coordinates of the merged bounding box
+	float minX = std::min(minX1, minX2);
+	float minY = std::min(minY1, minY2);
+	float minZ = std::min(minZ1, minZ2);
+	float maxX = std::max(maxX1, maxX2);
+	float maxY = std::max(maxY1, maxY2);
+	float maxZ = std::max(maxZ1, maxZ2);
+
+	// Define the eight vertices of the merged bounding box
+	vec3 vertices[8] = {
+		{minX, minY, minZ},
+		{minX, minY, maxZ},
+		{minX, maxY, minZ},
+		{minX, maxY, maxZ},
+		{maxX, minY, minZ},
+		{maxX, minY, maxZ},
+		{maxX, maxY, minZ},
+		{maxX, maxY, maxZ},
+	};
+
+	// Define the twelve edges of the merged bounding box
+	int edges[12][2] = {
+		{0, 1}, {0, 2}, {0, 4},
+		{3, 2}, {3, 1}, {3, 7},
+		{6, 2}, {6, 4}, {6, 7},
+		{5, 1}, {5, 4}, {5, 7},
+	};
+
+	// Add the edges to the merged bounding box
+	for (int i = 0; i < 12; i++) {
+		mergedBoundingBox.push_back(vertices[edges[i][0]]);
+		mergedBoundingBox.push_back(vertices[edges[i][1]]);
+	}
 }
 
 void drawModelLine(TreeNode p) {
@@ -2622,67 +2514,149 @@ void drawModelLine(TreeNode p, TreeNode p1) {
 	glm::mat4 vMat = meshWindowCam.GetViewMatrix();
 	glm::mat4 modelMat = meshWindowCam.GetModelMatrix();
 	bool gothought = false;
-	//if (linerenderb[p.treeNodeID] == true)
-	//	gothought = true;
-	//if (gothought == false) {
-		linerenderb[p.treeNodeID] = true;
-		linerenderb[p1.treeNodeID] = true;
-		if (p.parmetricNode.elementsPos.size() > 0) {
-			vector<mat4> eachmat;
 
-			for (int z = 0; z < p.parmetricNode.elementsPos.size(); z++) {
-				BoundingBox bbox;
-				bbox.min = models[p.parmetricNode.meshnum].objBounding.minbounding;
-				bbox.max = models[p.parmetricNode.meshnum].objBounding.maxbounding;
-				float areaView = GetObjectInViewPercentage(bbox, pMat);
-				glm::mat4 modelMatl = modelMat;
+	linerenderb[p.treeNodeID] = true;
+	linerenderb[p1.treeNodeID] = true;
+	if (p.parmetricNode.elementsPos.size() > 0) {
+		vector<mat4> eachmat;
 
-				vector<vec3> linetreeshow, linetreeshow2;
-				modelMatl = modelMat;
-				modelMatl = glm::scale(modelMatl, models[p.parmetricNode.meshnum].scareObj);
-				modelMatl = glm::translate(modelMatl, glm::vec3(p.parmetricNode.elementsPos[z]));
-				if (p.parmetricNode.generateNormal != vec3(0, 0, 0)) //normal.cross(OpenMesh::Vec3f(0, 1, 0)
-					modelMatl = glm::rotate(modelMatl, glm::radians((float)(90 * p.parmetricNode.generateNormal.y)), glm::vec3(p.parmetricNode.generateNormal));
-				linetreeshow = models[p.parmetricNode.meshnum].boundinglinchangeMat4(modelMatl);
+		for (int z = 0; z < p.parmetricNode.elementsPos.size(); z++) {
+			BoundingBox bbox;
+			bbox.min = models[p.parmetricNode.meshnum].objBounding.minbounding;
+			bbox.max = models[p.parmetricNode.meshnum].objBounding.maxbounding;
+			float areaView = GetObjectInViewPercentage(bbox, pMat);
+			glm::mat4 modelMatl = modelMat;
 
-				modelMatl = modelMat;
-				modelMatl = glm::scale(modelMatl, models[p1.parmetricNode.meshnum].scareObj);
-				modelMatl = glm::translate(modelMatl, glm::vec3(p1.parmetricNode.elementsPos[z]));
-				if (p1.parmetricNode.generateNormal != vec3(0, 0, 0)) 
-					modelMatl = glm::rotate(modelMatl, glm::radians((float)(90 * p1.parmetricNode.generateNormal.y)), glm::vec3(p1.parmetricNode.generateNormal));
-				linetreeshow2 = models[p1.parmetricNode.meshnum].boundinglinchangeMat4(modelMatl);
+			vector<vec3> linetreeshow, linetreeshow2;
+			modelMatl = modelMat;
+			modelMatl = glm::scale(modelMatl, models[p.parmetricNode.meshnum].scareObj);
+			modelMatl = glm::translate(modelMatl, glm::vec3(p.parmetricNode.elementsPos[z]));
+			if (p.parmetricNode.generateNormal != vec3(0, 0, 0))
+				modelMatl = glm::rotate(modelMatl, glm::radians((float)(90 * p.parmetricNode.generateNormal.y)), glm::vec3(p.parmetricNode.generateNormal));
+			linetreeshow = models[p.parmetricNode.meshnum].boundinglinchangeMat4(modelMatl);
 
-				vector<vec3> linetreeshow3;
-				mergeBoundingBoxes(linetreeshow, linetreeshow2, linetreeshow3);				
-				drawModelLineShader.Enable();
-				drawModelLineShader.SetPMat(pMat);
-				drawModelLineShader.SetColor(colors[5]);
-				glBindTexture(GL_TEXTURE_2D, imgtext);
-				modelMatl = modelMat;				
-				mvMat = vMat * modelMatl;
-				eachmat.push_back(mvMat);				
-				modelMatl = modelMat;				
-				drawModelLineShader.SetPMat(pMat);
-				
-				glm::mat3 normalMat = glm::transpose(glm::inverse(glm::mat3(vMat)));
-				drawModelLineShader.SetNormalMat(normalMat);
-				drawModelLineShader.SetMVMat(vMat);
-				glDepthMask(GL_FALSE);
-				
-				models[p.parmetricNode.meshnum].renderObjConnect(linetreeshow3);
-				linetreeshow.clear();
-				linetreeshow2.clear();				
-				glDepthMask(GL_TRUE);
-				glBindTexture(GL_TEXTURE_2D, 0);
-				drawModelLineShader.Disable();
-			}
-	//	}
+			modelMatl = modelMat;
+			modelMatl = glm::scale(modelMatl, models[p1.parmetricNode.meshnum].scareObj);
+			modelMatl = glm::translate(modelMatl, glm::vec3(p1.parmetricNode.elementsPos[z]));
+			if (p1.parmetricNode.generateNormal != vec3(0, 0, 0))
+				modelMatl = glm::rotate(modelMatl, glm::radians((float)(90 * p1.parmetricNode.generateNormal.y)), glm::vec3(p1.parmetricNode.generateNormal));
+			linetreeshow2 = models[p1.parmetricNode.meshnum].boundinglinchangeMat4(modelMatl);
+
+			vector<vec3> linetreeshow3;
+			linetreeshow3.insert(linetreeshow3.end(), linetreeshow.begin(),linetreeshow.end());
+			linetreeshow3.insert(linetreeshow3.end(), linetreeshow2.begin(), linetreeshow2.end());
+			mergeBoundingBoxes(linetreeshow, linetreeshow2, linetreeshow3);
+			drawModelLineShader.Enable();
+			drawModelLineShader.SetPMat(pMat);
+			drawModelLineShader.SetColor(colors[5]);
+			glBindTexture(GL_TEXTURE_2D, imgtext);
+			modelMatl = modelMat;
+			mvMat = vMat * modelMatl;
+			eachmat.push_back(mvMat);
+			modelMatl = modelMat;
+			drawModelLineShader.SetPMat(pMat);
+
+			glm::mat3 normalMat = glm::transpose(glm::inverse(glm::mat3(vMat)));
+			drawModelLineShader.SetNormalMat(normalMat);
+			drawModelLineShader.SetMVMat(vMat);
+			glDepthMask(GL_FALSE);
+			models[p.parmetricNode.meshnum].renderObjConnect(linetreeshow);
+			models[p.parmetricNode.meshnum].renderObjConnect(linetreeshow2);
+			models[p.parmetricNode.meshnum].renderObjConnect(linetreeshow3);
+			//linetreeshow.clear();
+			//linetreeshow2.clear();
+			glDepthMask(GL_TRUE);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			drawModelLineShader.Disable();
+		}
 		for (int i = 0; i < nodes[p.treeNodeID].childNodes.size(); i++)
 		{
 			drawModelLine(nodes[p.treeNodeID].childNodes[i]);
-		}		
+		}
 	}
 }
+void mergeAndChooseSmallerVolume(TreeNode& node, std::vector<TreeNode>& similarityNodes, std::vector<TreeNode>& proximityNodes) {
+	// Calculate the total volume of each group
+	double similarityVolume = 0.0;
+	for (const auto& n : similarityNodes) {
+		similarityVolume += n.volume;
+	}
+
+	double proximityVolume = 0.0;
+	for (const auto& n : proximityNodes) {
+		proximityVolume += n.volume;
+	}
+
+	// Choose the group with the smaller volume
+	if (similarityVolume < proximityVolume) {
+		// Merge node into similarityNodes group
+		similarityNodes.push_back(node);
+	}
+	else {
+		// Merge node into proximityNodes group
+		proximityNodes.push_back(node);
+	}
+}
+void renderBasedOnVolume(TreeNode& node, double allvolume) {
+	// Calculate the relative volume of the node
+	double relativeVolume = node.volume / allvolume;
+
+	// Render the node based on its relative volume
+	// The exact way to do this will depend on your application
+
+	// For example, we could print out the node's volume and relative volume:
+	std::cout << "Node volume: " << node.volume << std::endl;
+	std::cout << "Relative volume: " << relativeVolume << std::endl;
+}
+void traverseTree(TreeNode& node) {
+	// Process current node
+	// Note: This would be a good place to handle the similarity and proximity 
+	// node checks, as well as the Level of Detail (lod) merging and rendering.
+
+	// 檢查節點是否同時在similarityNodes及proximityNodes中存在
+	bool inSimilarityNodes = nodes[node.treeNodeID].similarity;
+	bool inProximityNodes = nodes[node.treeNodeID].proximity;
+
+	// 如果節點存在於兩者之中，則選擇體積比較小的分群進行合併
+	if (inSimilarityNodes && inProximityNodes) {
+		// 進行合併並選擇體積比較小的分群
+		mergeAndChooseSmallerVolume(node, similarityNodes, proximityNodes);
+	}
+
+	// 根據每個分群的體積與整體體積的比例進行Level of Detail (lod)的合併顯示
+	renderBasedOnVolume(node, allvolume);
+
+	// Traverse child nodes
+	for (auto& child : node.childNodes) {
+		traverseTree(child);
+	}
+}
+
+void renderHouseTree() {
+	// Update group volumes based on conditions
+	for (auto& node : houseTree.childNodes) {
+		float similarityVolume = 0.0f, proximityVolume = 0.0f;
+		if (node.similarity) {
+			similarityVolume = similarityNodes[node.similarityG].volume;
+		}
+		if (node.proximity) {
+			proximityVolume = proximityNodes[node.proximityG].volume;
+		}
+		node.volume = (similarityVolume < proximityVolume) ? similarityVolume : proximityVolume;
+	}
+
+	// Update Level of Detail (lod) based on group volume ratios
+	for (auto& node : houseTree.childNodes) {
+		node.lodt= node.volume / allvolume;
+		std::cout << "Node node.lodt: " << node.lodt << std::endl;
+		// Use node.lod to adjust the detail level in rendering...
+	}
+
+	// Traverse the tree hierarchy for rendering
+	traverseTree(houseTree);
+}
+
+
 void HouseTest() {
 	glGenTextures(1, &modeltexture);
 	glBindTexture(GL_TEXTURE_2D, modeltexture);
@@ -2989,14 +2963,7 @@ void UnitRoofSurface() {
 }
 void RenderMeshWindow()
 {
-	//glutSetWindow(meshWindow);
-	//ProceduralTest();
-	//roofSurfaceTest();
-	/*if (changeshow == 0)
-		RoofSurface();
-	else if (changeshow == 1)
-		UnitRoofSurface();*/
-		//RoofSurface();
+	renderHouseTree();
 	HouseTest();
 	TwDraw();
 	glutSwapBuffers();
@@ -3138,7 +3105,7 @@ int main(int argc, char* argv[])
 
 	glutDisplayFunc(Render);
 	glutReshapeFunc(Reshape);
-	glutIdleFunc(RenderAll);
+	//glutIdleFunc(RenderAll);
 	glutTimerFunc(16, My_Timer, 0);
 	glutSetOption(GLUT_RENDERING_CONTEXT, GLUT_USE_CURRENT_CONTEXT);
 

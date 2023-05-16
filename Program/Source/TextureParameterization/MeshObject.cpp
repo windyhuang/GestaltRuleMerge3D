@@ -1005,7 +1005,7 @@ void MeshObject::findContours()
 }
 
 int MeshObject::go_lineTree(MeshObject::lineTree &showline ,int level,vector<vec3> &lines) {
-	
+	return 0;
 }
 
 void MeshObject::contourGroup() {

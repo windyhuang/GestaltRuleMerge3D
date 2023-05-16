@@ -12,6 +12,7 @@ class TreeNode {
 public:
 	string name;
 	int treeNodeID;
+	float lodt;
 	TreeNode *parent;
 	vector<TreeNode> childNodes; //&
 	ParametricNode parmetricNode;
