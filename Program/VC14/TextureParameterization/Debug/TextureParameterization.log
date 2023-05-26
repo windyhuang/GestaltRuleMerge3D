@@ -14,7 +14,8 @@ D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\Mesh
           ]
 D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\MeshObject.h(297,21): warning C4018: '<': signed/unsigned 不相符
 D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\MeshObject.h(320,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\MeshObject.h(466,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\MeshObject.h(335,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\MeshObject.h(480,21): warning C4018: '<': signed/unsigned 不相符
 D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\RuleMath.h(64,31): warning C4305: '正在初始化': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
 D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\RelationTreeNode.h(145,21): warning C4018: '<': signed/unsigned 不相符
 D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\RelationTreeNode.h(158,21): warning C4018: '<': signed/unsigned 不相符
@@ -30,159 +31,158 @@ D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\Rela
 D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\RelationTreeNode.h(372,16): warning C4018: '<': signed/unsigned 不相符
 D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\RelationTreeNode.h(398,18): warning C4018: '<=': signed/unsigned 不相符
 D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\RelationTreeNode.h(415,17): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(151,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(257,22): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(258,22): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(259,23): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(262,91): warning C4244: '引數': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(262,75): warning C4244: '引數': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(262,60): warning C4244: '引數': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(274,21): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(281,27): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(294,27): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(303,27): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(315,27): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(328,22): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(472,27): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(480,18): warning C4244: '正在初始化': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(514,38): warning C4244: '=': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(670,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(671,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(678,15): warning C4305: '=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(731,11): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(737,10): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(758,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(872,26): warning C4305: '=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(898,24): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(933,25): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(968,25): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1002,25): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1031,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1037,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1041,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1053,23): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1074,22): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1080,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1081,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1087,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1091,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1103,23): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1111,24): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1133,22): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1139,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1140,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1146,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1152,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1154,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1163,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1165,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1174,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1176,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1197,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1198,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1208,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1216,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1217,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1280,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1388,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1392,19): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1440,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1444,19): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1494,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1506,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1508,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1509,22): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1510,23): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1544,23): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1574,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1576,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1577,22): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1578,23): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1621,23): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1720,20): warning C4244: '正在初始化': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1721,19): warning C4244: '正在初始化': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1725,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1736,21): warning C4554: '&': 檢查運算子優先順序找出可能發生的錯誤; 使用括號釐清順序
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1746,23): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1780,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1853,11): warning C4244: '正在初始化': 將 'T' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(158,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(264,22): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(265,22): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(266,23): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(269,91): warning C4244: '引數': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(269,75): warning C4244: '引數': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(269,60): warning C4244: '引數': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(281,21): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(288,27): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(301,27): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(310,27): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(322,27): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(335,22): warning C4244: '正在初始化': 將 'int' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(479,27): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(487,18): warning C4244: '正在初始化': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(521,38): warning C4244: '=': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(677,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(678,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(685,15): warning C4305: '=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(738,11): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(744,10): warning C4244: '=': 將 'double' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(765,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(878,26): warning C4305: '=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(897,24): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(932,25): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(967,25): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1001,25): warning C4305: '+=': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1040,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1046,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1050,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1062,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1083,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1089,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1090,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1148,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1149,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1156,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1162,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1164,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1173,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1175,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1184,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1186,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1207,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1208,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1218,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1226,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1227,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1290,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1398,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1402,19): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1450,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1454,19): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1504,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1516,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1518,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1519,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1520,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1554,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1584,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1586,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1587,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1588,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1631,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1730,20): warning C4244: '正在初始化': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1731,19): warning C4244: '正在初始化': 將 'float' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1735,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1746,21): warning C4554: '&': 檢查運算子優先順序找出可能發生的錯誤; 使用括號釐清順序
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1756,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1790,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1863,11): warning C4244: '正在初始化': 將 'T' 轉換為 'int'，由於類型不同，可能導致資料遺失
           with
           [
               T=float
           ]
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1863,24): warning C4244: '=': 將 'T' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1873,24): warning C4244: '=': 將 'T' 轉換為 'int'，由於類型不同，可能導致資料遺失
           with
           [
               T=float
           ]
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1897,24): warning C4244: '=': 將 'T' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1907,24): warning C4244: '=': 將 'T' 轉換為 'int'，由於類型不同，可能導致資料遺失
           with
           [
               T=float
           ]
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1970,11): warning C4244: '正在初始化': 將 'T' 轉換為 'int'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1980,11): warning C4244: '正在初始化': 將 'T' 轉換為 'int'，由於類型不同，可能導致資料遺失
           with
           [
               T=float
           ]
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1972,42): warning C4244: '引數': 將 'T' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1982,42): warning C4244: '引數': 將 'T' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
           with
           [
               T=float
           ]
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1972,27): warning C4244: '引數': 將 'T' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1982,27): warning C4244: '引數': 將 'T' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
           with
           [
               T=float
           ]
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1973,42): warning C4244: '引數': 將 'T' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1983,42): warning C4244: '引數': 將 'T' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
           with
           [
               T=float
           ]
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1973,27): warning C4244: '引數': 將 'T' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(1983,27): warning C4244: '引數': 將 'T' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
           with
           [
               T=float
           ]
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2083,23): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2125,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2232,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2238,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2253,22): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2255,22): warning C4018: '>': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2261,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2294,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2246,7): warning C4101: 'startpoint': 未參考的區域變數
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2307,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2422,17): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2441,23): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2488,25): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2503,23): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2523,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2572,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2681,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2684,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2685,16): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2688,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2709,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2723,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2762,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2825,26): warning C4244: '=': 將 'const float' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2826,20): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2829,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2835,23): warning C4244: '引數': 將 'GLdouble' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2835,17): warning C4244: '引數': 將 'GLdouble' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2839,24): warning C4244: '引數': 將 'GLdouble' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2839,17): warning C4244: '引數': 將 'GLdouble' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2830,19): warning C4101: 'z': 未參考的區域變數
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2830,16): warning C4101: 'y': 未參考的區域變數
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2830,13): warning C4101: 'x': 未參考的區域變數
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2867,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2928,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2938,21): warning C4018: '<': signed/unsigned 不相符
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3029,26): warning C4305: '正在初始化': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
-D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3034,30): warning C4244: '=': 將 'double' 轉換為 '_Ty'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2093,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2135,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2242,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2248,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2263,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2265,22): warning C4018: '>': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2271,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2304,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2256,7): warning C4101: 'startpoint': 未參考的區域變數
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2317,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2466,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2494,17): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2513,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2575,23): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2595,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2644,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2672,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2697,18): warning C4018: '>=': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2711,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2718,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2722,22): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2805,72): warning C4018: '>=': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2944,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2954,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2975,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(2989,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3028,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3091,26): warning C4244: '=': 將 'const float' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3092,20): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3095,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3101,23): warning C4244: '引數': 將 'GLdouble' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3101,17): warning C4244: '引數': 將 'GLdouble' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3105,24): warning C4244: '引數': 將 'GLdouble' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3105,17): warning C4244: '引數': 將 'GLdouble' 轉換為 'GLint'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3096,19): warning C4101: 'z': 未參考的區域變數
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3096,16): warning C4101: 'y': 未參考的區域變數
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3096,13): warning C4101: 'x': 未參考的區域變數
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3133,15): warning C4244: '正在初始化': 將 'double' 轉換為 'float'，由於類型不同，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3194,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3204,21): warning C4018: '<': signed/unsigned 不相符
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3299,26): warning C4305: '正在初始化': 從 'double' 轉換為 'float'，是由較大的類型轉換為較小的類型，可能導致資料遺失
+D:\XinYun\Desktop\GestaltRuleMerge3D\Program\Source\TextureParameterization\main.cpp(3304,30): warning C4244: '=': 將 'double' 轉換為 '_Ty'，由於類型不同，可能導致資料遺失
           with
           [
               _Ty=float

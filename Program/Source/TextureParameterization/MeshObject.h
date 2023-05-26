@@ -43,7 +43,7 @@ class MeshObject
 {
 	struct lineTree {
 		int levelid;
-		MyMesh::Point linep1, linep2;		
+		MyMesh::Point linep1, linep2;
 		lineTree* lchild = NULL; lineTree* rchild = NULL;
 	};
 	struct lineGroup {
@@ -170,7 +170,7 @@ public:
 	void RenderContours();
 	void RenderContourGroups();
 	void findContours();
-	int go_lineTree(MeshObject::lineTree &showline, int level, vector<vec3> &lines);
+	int go_lineTree(MeshObject::lineTree& showline, int level, vector<vec3>& lines);
 	void contourShader();
 	void contourRule();
 	void contourGroup();
@@ -320,12 +320,26 @@ public:
 		for (int i = 0; i < boundingline.size(); i++)
 		{
 			vec3 oline11 = mat4tovec3(pos1, boundingline[i]);
-			lines.push_back(oline11); 
+			lines.push_back(oline11);
 		}
 
 		return lines;
 	}
 
+	//boundingline轉換回傳
+	vector<vec3>MeshObject::convexlinechangeMat4(mat4 pos1) {
+		MyMesh mesh;
+		mesh = model.mesh;
+		vector<vec3> lines;
+
+		for (int i = 0; i < convexline.size(); i++)
+		{
+			vec3 oline11 = mat4tovec3(pos1, convexline[i]);
+			lines.push_back(oline11);
+		}
+
+		return lines;
+	}
 
 	//三角形面積
 	double volume(vec3 a, vec3 b, vec3 c, vec3 d)

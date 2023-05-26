@@ -19,10 +19,12 @@ public:
 	vec3 normal;
 	BoundingBox boundbox;
 	float volume;
+	bool lod = false;//¨Oß_∞ı¶ÊLOD
 	bool inChildNode = false;
 	bool proximity = false;
 	bool similarity = false;
 	int proximityG, similarityG, proximityJ, similarityJ;
+	vector<vec3> boundingboxlines,convexboxline;
 	//bool inChildNode=false;
 	//TreeNode();
 };

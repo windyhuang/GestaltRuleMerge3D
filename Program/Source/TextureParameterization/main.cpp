@@ -91,13 +91,20 @@ vector<TreeNode> nodes;//all node
 vector<int> modelrender;
 vector<int> linerender;
 vector<bool> linerenderb;
+int num_parts = 10;
+int num_divisions = 30;
 int changeshow = 0;
 float allvolume;
+int buttonPressed = 0;
 void TW_CALL ParameterizationBtn(void* clientData)
 {
 
 }
-
+void TW_CALL ButtonCallback(void* clientData)
+{
+	buttonPressed = !buttonPressed;
+	printf("Button pressed: %d\n", buttonPressed);
+}
 void setupGUI()
 {
 #ifdef _MSC_VER
@@ -122,10 +129,10 @@ void setupGUI()
 	TwType meshLineTwType = TwDefineEnum("MeshType", Meshes, 3);
 	
 	// Adding variables to the tweak bar
-	TwAddVarRW(bar, "Window Number", TW_TYPE_INT32, &windowNum, " label='Number of Windows' min=0 max=200 step=1 ");
-	TwAddVarRW(bar, "Floor Number", TW_TYPE_INT32, &floorsNum, " label='Number of Floors' min=0 max=100 step=1 ");
+	TwAddVarRW(bar, "Window Number", TW_TYPE_INT32, &num_divisions, " label='Number of Windows' min=0 max=200 step=1 ");
+	TwAddVarRW(bar, "Floor Number", TW_TYPE_INT32, &num_parts, " label='Number of Floors' min=0 max=100 step=1 ");
 	TwAddVarRW(bar, "LodT Number", TW_TYPE_INT32, &LodT, " label='Number of LodT' min=0 max=100 step=1 ");
-
+	TwAddButton(bar, "MyButton", ButtonCallback, NULL, " label='Render' ");
 }
 
 void My_LoadModel()
@@ -840,8 +847,7 @@ void BuildHouseWindow() {
 	glm::mat4 pMat = meshWindowCam.GetProjectionMatrix(aspect);
 	glm::mat4 vMat = meshWindowCam.GetViewMatrix();
 	glm::mat4 modelMat = meshWindowCam.GetModelMatrix();
-	int num_parts = 10;
-	int num_divisions = 30;
+	
 	vec3 startpos = vec3(0, 0, 0);
 	std::vector<vec3> wall_normals = {
 		{0, 1, 0},
@@ -876,14 +882,7 @@ void BuildHouseWindow() {
 		houseTree.childNodes[i].childNodes.resize(4);
 		houseTree.childNodes[i].normal = vec3(0, 0, 0);
 		houseTree.childNodes[i].treeNodeID = buildid;
-		nodes.push_back(houseTree.childNodes[i]);
-		similarityNodes[0].childNodes.push_back(houseTree.childNodes[i]);
-		similarityNodes[0].volume += models[0].objBounding.volume;
-		common_orientationNode[0].childNodes.push_back(houseTree.childNodes[i]);
-		proximityNodes[0].childNodes.push_back(houseTree.childNodes[i]);
-		allvolume += models[0].objBounding.volume;
-		proximityNodes[0].volume += models[0].objBounding.volume;
-		common_orientationNode[0].volume += models[0].objBounding.volume;
+		
 		buildid++;
 
 		ParametricNode p;
@@ -1026,6 +1025,16 @@ void BuildHouseWindow() {
 		similarityNodes[1].childNodes.push_back(houseTree.childNodes[i].childNodes[division]);
 		common_orientationNode[4].childNodes.push_back(houseTree.childNodes[i].childNodes[division]);
 		buildid++; division++;
+		nodes.push_back(houseTree.childNodes[i]);
+		similarityNodes[0].volume += models[0].objBounding.volume;
+		similarityNodes[0].childNodes.push_back(houseTree.childNodes[i]);
+		
+		common_orientationNode[0].childNodes.push_back(houseTree.childNodes[i]);
+		proximityNodes[0].volume += models[0].objBounding.volume;
+		proximityNodes[0].childNodes.push_back(houseTree.childNodes[i]);
+		allvolume += models[0].objBounding.volume;
+		
+		common_orientationNode[0].volume += models[0].objBounding.volume;
 	}
 	stepfloat.resize(nodes.size());
 	for (int i = 0; i < nodes.size(); i++)
@@ -1035,7 +1044,7 @@ void BuildHouseWindow() {
 	vec3 buildmin = vec3(99, 99, 99); vec3 buildmax = vec3(-99, -99, -99);
 
 	for (int i = 0; i < similarityNodes.size(); i++) {
-		vector<vec3> normalstep;
+		vector<vec3> normalstep;//法向量
 		vector<TreeNode> nodeStep;
 
 		for (int j = 0; j < similarityNodes[i].childNodes.size(); j++) {
@@ -1084,7 +1093,7 @@ void BuildHouseWindow() {
 			nodes[similarityNodes[i].childNodes[j].treeNodeID].similarityJ = j;
 		}
 	}
-	for (int i = 0; i < proximityNodes.size(); i++) {
+	/*for (int i = 0; i < proximityNodes.size(); i++) {
 		vector<vec3> normalstep;
 		vector<TreeNode> nodeStep;
 		vector<int> hasid;//是否已有id
@@ -1135,11 +1144,12 @@ void BuildHouseWindow() {
 			}
 			i += nodeStep.size();
 		}
-	}
+	}*/
 	for (int i = 0; i < proximityNodes.size(); i++) {
 		for (int j = 0; j < proximityNodes[i].childNodes.size(); j++) {
 			nodes[proximityNodes[i].childNodes[j].treeNodeID].proximity = true;
 			nodes[proximityNodes[i].childNodes[j].treeNodeID].proximityG = i;
+			nodes[proximityNodes[i].childNodes[j].treeNodeID].proximityJ = j;
 		}
 	}
 	linerenderb.resize(nodes.size());
@@ -1237,7 +1247,7 @@ void InitData()
 	ResourcePath::imagePath = "./Imgs/" + ProjectName + "/";
 	ResourcePath::modelPath = "./Model/floor1.obj";
 	ResourcePath::modelPath1.push_back("./Model/floor1.obj");
-	ResourcePath::modelPath1.push_back("./Model/window1.obj");
+	ResourcePath::modelPath1.push_back("./Model/window4.obj");
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
@@ -2399,7 +2409,69 @@ void mergeBoundingBoxes(vector<vec3>& lineSegments1, vector<vec3>& lineSegments2
 		mergedBoundingBox.push_back(vertices[edges[i][1]]);
 	}
 }
+float crossProduct(const vec3& O, const vec3& A, const vec3& B)
+{
+	return (A.x - O.x) * (B.y - O.y) - (A.y - O.y) * (B.x - O.x);
+}
 
+double angle(const vec3& a, const vec3& b) {
+	// 計算兩向量的內積
+	double dot = a.x * b.x + a.y * b.y + a.z * b.z;
+
+	// 計算兩向量的長度
+	double len_a = sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
+	double len_b = sqrt(b.x * b.x + b.y * b.y + b.z * b.z);
+
+	// 計算兩向量之間的角度（弧度）
+	double angle = acos(dot / (len_a * len_b));
+
+	return angle;
+}
+vec3 p0;
+// 用於排序的比較函數
+bool angleSort(const vec3& a, const vec3& b) {
+	// 計算與 p0 的向量的角度
+	double angleA = atan2(a.y - p0.y, a.x - p0.x);
+	double angleB = atan2(b.y - p0.y, b.x - p0.x);
+
+	// 若夾角相同，則距離短的點優先
+	if (angleA == angleB)
+		return distance(p0, a) < distance(p0, b);
+
+	return angleA < angleB;
+}
+
+// 計算兩點之間的距離
+double distance(const vec3& a, const vec3& b) {
+	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2) + pow(a.z - b.z, 2));
+}
+std::vector<vec3> getConvexHull(std::vector<vec3>& lineSegments1, std::vector<vec3>& lineSegments2) {
+	// 合併兩個點集合
+	std::vector<vec3> points = lineSegments1;
+	points.insert(points.end(), lineSegments2.begin(), lineSegments2.end());
+
+	// 找到 y 最小（x 最小）的點作為起始點 p0
+	p0 = *std::min_element(points.begin(), points.end(), [](const vec3& a, const vec3& b) {
+		return a.y < b.y || (a.y == b.y && a.x < b.x);
+		});
+
+	// 根據與 p0 的夾角進行排序
+	std::sort(points.begin(), points.end(), angleSort);
+
+	// 建立凸包
+	std::vector<vec3> hull;
+	hull.push_back(points[0]);
+	hull.push_back(points[1]);
+
+	for (int i = 2; i < points.size(); i++) {
+		while (hull.size() > 1 && crossProduct(hull[hull.size() - 2], hull[hull.size() - 1], points[i]) <= 0) {
+			hull.pop_back();
+		}
+		hull.push_back(points[i]);
+	}
+
+	return hull;
+}
 void drawModelLine(TreeNode p) {
 
 	vec3 campos = meshWindowCam.GetWorldEyePosition();
@@ -2479,7 +2551,7 @@ void drawModelLine(TreeNode p) {
 					glDepthMask(GL_FALSE);
 					vector<vec3> linetreeshow;
 
-					if (interval == 1)
+					/*if (interval == 1)
 						linetreeshow = models[p.parmetricNode.meshnum].boundingline;
 					else if (interval == 2)
 						linetreeshow = models[p.parmetricNode.meshnum].convexline;
@@ -2490,9 +2562,9 @@ void drawModelLine(TreeNode p) {
 							models[p.parmetricNode.meshnum].meshEdgeGroup[j].linestree;
 							
 						}
-					}
-
-					models[p.parmetricNode.meshnum].renderObjConnect(linetreeshow);
+					}*/
+					models[p.parmetricNode.meshnum].RenderContours();
+					//models[p.parmetricNode.meshnum].renderObjConnect(linetreeshow);
 					glDepthMask(GL_TRUE);
 					glBindTexture(GL_TEXTURE_2D, 0);
 					drawModelLineShader.Disable();
@@ -2560,8 +2632,8 @@ void drawModelLine(TreeNode p, TreeNode p1) {
 			drawModelLineShader.SetNormalMat(normalMat);
 			drawModelLineShader.SetMVMat(vMat);
 			glDepthMask(GL_FALSE);
-			models[p.parmetricNode.meshnum].renderObjConnect(linetreeshow);
-			models[p.parmetricNode.meshnum].renderObjConnect(linetreeshow2);
+			//models[p.parmetricNode.meshnum].renderObjConnect(linetreeshow);
+			//models[p.parmetricNode.meshnum].renderObjConnect(linetreeshow2);
 			models[p.parmetricNode.meshnum].renderObjConnect(linetreeshow3);
 			//linetreeshow.clear();
 			//linetreeshow2.clear();
@@ -2575,6 +2647,197 @@ void drawModelLine(TreeNode p, TreeNode p1) {
 		}
 	}
 }
+
+TreeNode mergeNodes(TreeNode& node1, TreeNode& node2) {
+	vec3 campos = meshWindowCam.GetWorldEyePosition();
+	glm::mat4 mvMat = meshWindowCam.GetViewMatrix() * meshWindowCam.GetModelMatrix();
+	glm::mat4 pMat = meshWindowCam.GetProjectionMatrix(aspect);
+	glm::mat4 vMat = meshWindowCam.GetViewMatrix();
+	glm::mat4 modelMat = meshWindowCam.GetModelMatrix();
+	// Create a new node to represent the merged nodes
+	TreeNode newNode;
+
+	// Merge the volumes
+	newNode.volume = node1.volume + node2.volume;
+
+	// Merge the positions
+	if (node1.similarityG == node2.similarityG)
+	{		
+		newNode.parmetricNode = node1.parmetricNode;
+		newNode.parmetricNode.elementsPos.insert(newNode.parmetricNode.elementsPos.end(), node2.parmetricNode.elementsPos.begin(), node2.parmetricNode.elementsPos.end());
+		if (node1.parmetricNode.elementsPos.size() == node2.parmetricNode.elementsPos.size())
+		{
+			int step = 1;
+			
+			for (int i = 0; i < node1.parmetricNode.elementsPos.size(); i+= step) {
+				glm::mat4 modelMatl = modelMat;
+
+				vector<vec3> linetreeshow, linetreeshow2,convexlineshow,convexlineshow2;
+				modelMatl = modelMat;
+				modelMatl = glm::scale(modelMatl, models[node1.parmetricNode.meshnum].scareObj);
+				modelMatl = glm::translate(modelMatl, glm::vec3(node1.parmetricNode.elementsPos[i]));
+				if (node1.parmetricNode.generateNormal != vec3(0, 0, 0))
+					modelMatl = glm::rotate(modelMatl, glm::radians((float)(90 * node1.parmetricNode.generateNormal.y)), glm::vec3(node1.parmetricNode.generateNormal));
+				linetreeshow = models[node1.parmetricNode.meshnum].boundinglinchangeMat4(modelMatl);
+				convexlineshow= models[node1.parmetricNode.meshnum].convexlinechangeMat4(modelMatl);	
+				
+					
+				modelMatl = modelMat;
+				modelMatl = glm::scale(modelMatl, models[node2.parmetricNode.meshnum].scareObj);
+				modelMatl = glm::translate(modelMatl, glm::vec3(node2.parmetricNode.elementsPos[i]));
+				if (node2.parmetricNode.generateNormal != vec3(0, 0, 0))
+					modelMatl = glm::rotate(modelMatl, glm::radians((float)(90 * node2.parmetricNode.generateNormal.y)), glm::vec3(node2.parmetricNode.generateNormal));
+				linetreeshow2 = models[node2.parmetricNode.meshnum].boundinglinchangeMat4(modelMatl);
+				convexlineshow2 = models[node1.parmetricNode.meshnum].convexlinechangeMat4(modelMatl);
+				mergeBoundingBoxes(linetreeshow, linetreeshow2, newNode.boundingboxlines);
+				newNode.convexboxline=getConvexHull(linetreeshow, linetreeshow2);
+				float longer = GetObjectInViewPercentage(node1.boundbox, modelMatl);
+				if (longer > 2)
+					step = 2;
+				if (step + i >= node1.parmetricNode.elementsPos.size())
+					step = node1.parmetricNode.elementsPos.size() - i - 1;
+			}
+		}
+		
+	}
+	// Check if the merged volume is less than half of the total volume
+	if (newNode.volume < allvolume * 0.5) {
+		// Do something, for example, set a flag
+		newNode.lod = true;
+	}
+	TreeNode treenode;
+	if (node1.childNodes.size() > 0) {
+		if (node1.childNodes.size() == node2.childNodes.size()) {
+			for (int i = 0; i < node1.childNodes.size(); i++)
+			{
+				treenode=mergeNodes(node1.childNodes[i], node2.childNodes[i]);
+				newNode.childNodes.push_back(treenode);				
+			}
+		}
+		else {
+			for (int i = 0; i < node2.childNodes.size(); i++)
+			{
+				newNode.childNodes.push_back(node2.childNodes[i]);
+			}
+			for (int i = 0; i < node2.childNodes.size(); i++)
+			{
+				newNode.childNodes.push_back(node2.childNodes[i]);
+			}
+		}
+	}
+	// Return the new node
+	return newNode;
+}
+
+void drawTreeNode(TreeNode treenode) {
+	glm::mat4 pMat = meshWindowCam.GetProjectionMatrix(aspect);
+	glm::mat4 vMat = meshWindowCam.GetViewMatrix();
+	if (treenode.parmetricNode.elementsPos.size() > 0)
+	{
+		drawModelLineShader.Enable();
+		drawModelLineShader.SetPMat(pMat);
+		drawModelLineShader.SetColor(colors[5]);
+		glBindTexture(GL_TEXTURE_2D, imgtext);
+		drawModelLineShader.SetPMat(pMat);
+		glm::mat3 normalMat = glm::transpose(glm::inverse(glm::mat3(vMat)));
+		drawModelLineShader.SetNormalMat(normalMat);
+		drawModelLineShader.SetMVMat(vMat);
+		glDepthMask(GL_FALSE);
+		models[1].renderObjConnect(treenode.boundingboxlines);
+		glDepthMask(GL_TRUE);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		drawModelLineShader.Disable();
+	}
+
+	// Utilize for-each loop instead of standard for loop
+	for (auto& childNode : treenode.childNodes)
+		drawTreeNode(childNode);
+}
+
+void drawModelLine(TreeNode p, float allv) {
+	vec3 campos = meshWindowCam.GetWorldEyePosition();
+	glm::mat4 mvMat = meshWindowCam.GetViewMatrix() * meshWindowCam.GetModelMatrix();
+	glm::mat4 pMat = meshWindowCam.GetProjectionMatrix(aspect);
+	glm::mat4 vMat = meshWindowCam.GetViewMatrix();
+	glm::mat4 modelMat = meshWindowCam.GetModelMatrix();
+	if (linerenderb[p.treeNodeID] == true)
+		return;
+	TreeNode treenode;
+	if (nodes[p.treeNodeID].similarity && nodes[p.treeNodeID].proximity) {
+		float similarityGroupVolume = similarityNodes[nodes[p.treeNodeID].similarityG].volume/ allv; //calculateGroupVolume(similarityNodes);
+		float proximityGroupVolume = proximityNodes[nodes[p.treeNodeID].proximityG].volume/ allv; //calculateGroupVolume(proximityNodes);
+		if (similarityGroupVolume > proximityGroupVolume) {
+			if (similarityNodes[nodes[p.treeNodeID].similarityG].childNodes.size()-1 == nodes[p.treeNodeID].similarityJ) {
+				treenode = mergeNodes(p, similarityNodes[nodes[p.treeNodeID].similarityG].childNodes[nodes[p.treeNodeID].similarityJ - 1]);
+				linerenderb[p.treeNodeID] = true; linerenderb[similarityNodes[nodes[p.treeNodeID].similarityG].childNodes[nodes[p.treeNodeID].similarityJ - 1].treeNodeID] = true;
+			}
+			else
+			{
+				treenode = mergeNodes(p, similarityNodes[nodes[p.treeNodeID].similarityG].childNodes[nodes[p.treeNodeID].similarityJ + 1]);
+				linerenderb[p.treeNodeID] = true;  linerenderb[similarityNodes[nodes[p.treeNodeID].similarityG].childNodes[nodes[p.treeNodeID].similarityJ + 1].treeNodeID] = true;
+			}
+		}
+		else {
+			//mergeNodes(p,proximityNodes);
+			if (proximityNodes[nodes[p.treeNodeID].proximityG].childNodes.size()-1 == nodes[p.treeNodeID].proximityJ) {
+				treenode = mergeNodes(p, proximityNodes[nodes[p.treeNodeID].proximityG].childNodes[nodes[p.treeNodeID].proximityJ - 1]);
+				linerenderb[p.treeNodeID] = true;  linerenderb[proximityNodes[nodes[p.treeNodeID].proximityG].childNodes[nodes[p.treeNodeID].proximityJ - 1].treeNodeID] = true;
+			}
+			else
+			{
+				treenode = mergeNodes(p, proximityNodes[nodes[p.treeNodeID].proximityG].childNodes[nodes[p.treeNodeID].proximityJ + 1]);
+				linerenderb[p.treeNodeID] = true;  linerenderb[proximityNodes[nodes[p.treeNodeID].proximityG].childNodes[nodes[p.treeNodeID].proximityJ + 1].treeNodeID] = true;
+			}
+		}
+	}
+	/*else if (nodes[p.treeNodeID].similarity) {
+		if (similarityNodes[nodes[p.treeNodeID].similarityG].childNodes.size() >= nodes[p.treeNodeID].similarityJ) {
+			treenode = mergeNodes(p, nodes[similarityNodes[nodes[p.treeNodeID].similarityG].childNodes[nodes[p.treeNodeID].similarityJ - 1].treeNodeID]);
+			linerenderb[p.treeNodeID] = true; linerenderb[similarityNodes[nodes[p.treeNodeID].similarityG].childNodes[nodes[p.treeNodeID].similarityJ - 1].treeNodeID] = true;
+		}
+		else
+		{
+			treenode = mergeNodes(p, nodes[similarityNodes[nodes[p.treeNodeID].similarityG].childNodes[nodes[p.treeNodeID].similarityJ + 1].treeNodeID]);
+			linerenderb[p.treeNodeID] = true;  linerenderb[similarityNodes[nodes[p.treeNodeID].similarityG].childNodes[nodes[p.treeNodeID].similarityJ + 1].treeNodeID] = true;
+		}
+	}*/
+	else if (nodes[p.treeNodeID].proximity) {
+		if (proximityNodes[nodes[p.treeNodeID].proximityG].childNodes.size() >= nodes[p.treeNodeID].proximityJ) {
+			treenode = mergeNodes(p, nodes[proximityNodes[nodes[p.treeNodeID].proximityG].childNodes[nodes[p.treeNodeID].proximityJ - 1].treeNodeID]);
+			linerenderb[p.treeNodeID] = true;  linerenderb[proximityNodes[nodes[p.treeNodeID].proximityG].childNodes[nodes[p.treeNodeID].proximityJ - 1].treeNodeID] = true;
+		}
+		else
+		{
+			treenode = mergeNodes(p, nodes[proximityNodes[nodes[p.treeNodeID].proximityG].childNodes[nodes[p.treeNodeID].proximityJ + 1].treeNodeID]);
+			linerenderb[p.treeNodeID] = true;  linerenderb[proximityNodes[nodes[p.treeNodeID].proximityG].childNodes[nodes[p.treeNodeID].proximityJ + 1].treeNodeID] = true;
+		}
+	}
+	
+	if (treenode.parmetricNode.elementsPos.size() > 0)
+	{
+		drawModelLineShader.Enable();
+		drawModelLineShader.SetPMat(pMat);
+		drawModelLineShader.SetColor(colors[5]);
+		glBindTexture(GL_TEXTURE_2D, imgtext);
+
+		drawModelLineShader.SetPMat(pMat);
+
+		glm::mat3 normalMat = glm::transpose(glm::inverse(glm::mat3(vMat)));
+		drawModelLineShader.SetNormalMat(normalMat);
+		drawModelLineShader.SetMVMat(vMat);
+		glDepthMask(GL_FALSE);
+		models[p.parmetricNode.meshnum].renderObjConnect(treenode.boundingboxlines);
+		glDepthMask(GL_TRUE);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		drawModelLineShader.Disable();
+
+	}
+	if (treenode.childNodes.size() > 0)
+		for (auto& childNode : treenode.childNodes)
+			drawTreeNode(childNode);
+
+}
+
 void mergeAndChooseSmallerVolume(TreeNode& node, std::vector<TreeNode>& similarityNodes, std::vector<TreeNode>& proximityNodes) {
 	// Calculate the total volume of each group
 	double similarityVolume = 0.0;
@@ -2677,14 +2940,17 @@ void HouseTest() {
 	glDepthFunc(GL_LESS);
 	RenderGroudVAO();
 	drawModel(houseTree);
-	
-	for (int i = 0; i < proximityNodes[0].childNodes.size(); i += 2)
+	proximityNodes.erase(proximityNodes.begin()+1, proximityNodes.end());
+	for (int i = 0; i < houseTree.childNodes.size(); i++)
+		drawModelLine(houseTree.childNodes[i], allvolume);
+	//drawModelLine(houseTree);
+	/*for (int i = 0; i < proximityNodes[0].childNodes.size(); i += 2)
 		drawModelLine(proximityNodes[0].childNodes[i], proximityNodes[0].childNodes[i+1]);
 
 	for (int i = 0; i < similarityNodes.size();i++)
 		for(int j=0;j< similarityNodes[i].childNodes.size();j+=2)
 			if (linerenderb[similarityNodes[i].childNodes[j].treeNodeID] == false)
-				drawModelLine(similarityNodes[i].childNodes[j], similarityNodes[i].childNodes[j + 1]);
+				drawModelLine(similarityNodes[i].childNodes[j], similarityNodes[i].childNodes[j + 1]);*/
 	for (int i = 0; i < linerenderb.size(); i++)
 		linerenderb[i] = false;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -2965,6 +3231,10 @@ void RenderMeshWindow()
 {
 	renderHouseTree();
 	HouseTest();
+	if (buttonPressed)
+		BuildHouseWindow();
+	else
+		BuildHouseWindow();
 	TwDraw();
 	glutSwapBuffers();
 }

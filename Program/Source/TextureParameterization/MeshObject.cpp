@@ -529,16 +529,16 @@ void MeshObject::MeshContourStructure()//mesh contour進入分析線，形成線
 		}
 		if (p1b == true && p2b == true)
 			meshEdgeGroup[i].Levelid == 1;
-		else if(p1b==true&&p2c==true)
+		else if (p1b == true && p2c == true)
 			meshEdgeGroup[i].Levelid == 1;
-		else if(p2b=true&& p1c==true)
+		else if (p2b = true && p1c == true)
 			meshEdgeGroup[i].Levelid == 1;
-		else if(p1c==true&&p2c==true)
+		else if (p1c == true && p2c == true)
 			meshEdgeGroup[i].Levelid == 2;
 		else
 			meshEdgeGroup[i].Levelid == 3;
 	}
-	
+
 }
 
 // 求兩個向量的叉積
@@ -598,13 +598,13 @@ std::vector<MyMesh::Point> MeshObject::convex_hull(std::vector<MyMesh::Point> po
 std::vector<vec3> MeshObject::boundingbox_point(std::vector<MyMesh::Point> points) {
 	vec3 min_pos = vec3(points[0][0], points[0][1], points[0][2]);
 	vec3 max_pos = vec3(points[0][0], points[0][1], points[0][2]);
-	
+
 	for (const auto& p : points) {
 		vec3 po = vec3(p[0], p[1], p[2]);
 		min_pos = min(min_pos, po);
 		max_pos = max(max_pos, po);
 	}
-	
+
 	vector<vec3> bbox_lines;
 	bbox_lines.push_back(glm::vec3(min_pos.x, min_pos.y, min_pos.z));
 	bbox_lines.push_back(glm::vec3(min_pos.x, max_pos.y, min_pos.z));
@@ -936,7 +936,7 @@ void MeshObject::findContours()
 		changePoint.push_back(push);
 	}
 	std::vector<MyMesh::Point> convexpoint = convex_hull(steppoint);
-	boundingline=boundingbox_point(steppoint);
+	boundingline = boundingbox_point(steppoint);
 	for (MyMesh::EIter eit = mesh.edges_begin(); eit != mesh.edges_end(); ++eit) {
 
 		// 檢查邊界。 （如果有邊界，一個半邊將無效）
@@ -1004,7 +1004,7 @@ void MeshObject::findContours()
 
 }
 
-int MeshObject::go_lineTree(MeshObject::lineTree &showline ,int level,vector<vec3> &lines) {
+int MeshObject::go_lineTree(MeshObject::lineTree& showline, int level, vector<vec3>& lines) {
 	return 0;
 }
 
@@ -1747,7 +1747,7 @@ vector<vec3> MeshObject::connectTwoObject(mat4 pos1, mat4 pos2, int size) {
 	}
 	for (int i = 0; i < meshEdgeGroup.size(); i++) {
 
-		
+
 		if (meshEdgeGroup[i].verticallines == true) {
 			vec3 line11, line12, line21, line22; bool linkline = false;
 			int allsize = meshEdgeGroup[i].edgegroups.size() / 2;
@@ -2093,7 +2093,7 @@ vector<MyMesh::EdgeIter> MeshObject::Construct(std::vector<MyMesh::EdgeIter> edg
 			else if (p2 == ply[j])
 				p2has = true;
 		}
-		if (p1has && p2has) {			
+		if (p1has && p2has) {
 			ans.push_back(edges[i]);
 		}
 	}
