@@ -1248,6 +1248,12 @@ void InitData()
 	ResourcePath::modelPath = "./Model/floor1.obj";
 	ResourcePath::modelPath1.push_back("./Model/floor1.obj");
 	ResourcePath::modelPath1.push_back("./Model/window4.obj");
+	ResourcePath::modelPath1.push_back("./Model/window5.obj");
+	ResourcePath::modelPath1.push_back("./Model/window6.obj");
+	ResourcePath::modelPath1.push_back("./Model/railing.obj");
+	ResourcePath::modelPath1.push_back("./Model/roof.obj");
+	ResourcePath::modelPath1.push_back("./Model/Pillar.obj");
+	ResourcePath::modelPath1.push_back("./Model/roofmodel.obj");
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
@@ -2550,7 +2556,7 @@ void drawModelLine(TreeNode p) {
 					drawModelLineShader.SetMVMat(mvMat);
 					glDepthMask(GL_FALSE);
 					vector<vec3> linetreeshow;
-
+					linetreeshow = models[p.parmetricNode.meshnum].convexline;//.returnlines(1);
 					/*if (interval == 1)
 						linetreeshow = models[p.parmetricNode.meshnum].boundingline;
 					else if (interval == 2)
@@ -2563,8 +2569,9 @@ void drawModelLine(TreeNode p) {
 							
 						}
 					}*/
-					models[p.parmetricNode.meshnum].RenderContours();
+					//models[p.parmetricNode.meshnum].RenderDetailLine();
 					//models[p.parmetricNode.meshnum].renderObjConnect(linetreeshow);
+					models[p.parmetricNode.meshnum].RenderContours();
 					glDepthMask(GL_TRUE);
 					glBindTexture(GL_TEXTURE_2D, 0);
 					drawModelLineShader.Disable();
@@ -2690,12 +2697,12 @@ TreeNode mergeNodes(TreeNode& node1, TreeNode& node2) {
 				linetreeshow2 = models[node2.parmetricNode.meshnum].boundinglinchangeMat4(modelMatl);
 				convexlineshow2 = models[node1.parmetricNode.meshnum].convexlinechangeMat4(modelMatl);
 				mergeBoundingBoxes(linetreeshow, linetreeshow2, newNode.boundingboxlines);
-				newNode.convexboxline=getConvexHull(linetreeshow, linetreeshow2);
+				newNode.convexboxline=getConvexHull(convexlineshow, convexlineshow2);
 				float longer = GetObjectInViewPercentage(node1.boundbox, modelMatl);
-				if (longer > 2)
+				/*if (longer > 2)
 					step = 2;
 				if (step + i >= node1.parmetricNode.elementsPos.size())
-					step = node1.parmetricNode.elementsPos.size() - i - 1;
+					step = node1.parmetricNode.elementsPos.size() - i - 1;*/
 			}
 		}
 		
@@ -2764,8 +2771,8 @@ void drawModelLine(TreeNode p, float allv) {
 		return;
 	TreeNode treenode;
 	if (nodes[p.treeNodeID].similarity && nodes[p.treeNodeID].proximity) {
-		float similarityGroupVolume = similarityNodes[nodes[p.treeNodeID].similarityG].volume/ allv; //calculateGroupVolume(similarityNodes);
-		float proximityGroupVolume = proximityNodes[nodes[p.treeNodeID].proximityG].volume/ allv; //calculateGroupVolume(proximityNodes);
+		float similarityGroupVolume = similarityNodes[nodes[p.treeNodeID].similarityG].volume; //calculateGroupVolume(similarityNodes); /// allv
+		float proximityGroupVolume = proximityNodes[nodes[p.treeNodeID].proximityG].volume; //calculateGroupVolume(proximityNodes); //e/ allv
 		if (similarityGroupVolume > proximityGroupVolume) {
 			if (similarityNodes[nodes[p.treeNodeID].similarityG].childNodes.size()-1 == nodes[p.treeNodeID].similarityJ) {
 				treenode = mergeNodes(p, similarityNodes[nodes[p.treeNodeID].similarityG].childNodes[nodes[p.treeNodeID].similarityJ - 1]);
@@ -2826,7 +2833,7 @@ void drawModelLine(TreeNode p, float allv) {
 		drawModelLineShader.SetNormalMat(normalMat);
 		drawModelLineShader.SetMVMat(vMat);
 		glDepthMask(GL_FALSE);
-		models[p.parmetricNode.meshnum].renderObjConnect(treenode.boundingboxlines);
+		models[p.parmetricNode.meshnum].renderObjConnect(treenode.convexboxline);
 		glDepthMask(GL_TRUE);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		drawModelLineShader.Disable();
@@ -2941,9 +2948,9 @@ void HouseTest() {
 	RenderGroudVAO();
 	drawModel(houseTree);
 	proximityNodes.erase(proximityNodes.begin()+1, proximityNodes.end());
-	for (int i = 0; i < houseTree.childNodes.size(); i++)
-		drawModelLine(houseTree.childNodes[i], allvolume);
-	//drawModelLine(houseTree);
+	//for (int i = 0; i < houseTree.childNodes.size(); i++)
+	//	drawModelLine(houseTree.childNodes[i], allvolume);
+	drawModelLine(houseTree);
 	/*for (int i = 0; i < proximityNodes[0].childNodes.size(); i += 2)
 		drawModelLine(proximityNodes[0].childNodes[i], proximityNodes[0].childNodes[i+1]);
 
@@ -3233,8 +3240,8 @@ void RenderMeshWindow()
 	HouseTest();
 	if (buttonPressed)
 		BuildHouseWindow();
-	else
-		BuildHouseWindow();
+	//else
+	//	BuildHouseWindow();
 	TwDraw();
 	glutSwapBuffers();
 }

@@ -201,8 +201,24 @@ public:
 	void renderFarSameLine(mat4 pos1, mat4 pos2, vector<vector<int>>  sameObjectMerge, mat4 farnum, int nearfar, vec3 campos);
 	void ObjectBounding();
 	int meshverticalnum, meshhorizontalnum;
-
-
+	vector<vec3> returnlines(int Level) {//在2023.05.30，此函式為回傳line群，主要按照Line Level，期望:將窗戶(2D類型)的元素，繪出應如同2D的Gestalt效果
+		vector<vec3> returnlines;
+		returnlines = convexline;
+		/*for (int i = 0; i < meshEdgeGroup.size(); i++) {
+			if (meshEdgeGroup[i].Levelid <= Level)
+			{
+				returnlines.push_back(vec3(meshEdgeGroup[i].linestree->linep1[0], meshEdgeGroup[i].linestree->linep1[1], meshEdgeGroup[i].linestree->linep1[2]));
+				returnlines.push_back(vec3(meshEdgeGroup[i].linestree->linep2[0], meshEdgeGroup[i].linestree->linep2[1], meshEdgeGroup[i].linestree->linep2[2]));
+			}
+		}*/
+		return returnlines;
+	}
+	/*2023.05.31*/
+	float getLength(MyMesh::EdgeIter edge);
+	bool areApproximate(MyMesh::EdgeIter edge1, MyMesh::EdgeIter edge2, float tolerance);
+	float getAngle(MyMesh::EdgeIter edge);
+	bool checkLineExistence(MyMesh::Point p1, MyMesh::Point p2);
+	/*2023.05.31*/
 	//計算有交點的線
 	vector<vector<int>> intersectionline;
 	double PR = 1e-8;
@@ -495,8 +511,5 @@ private:
 	std::vector<unsigned int*> fvIDsPtr;
 	std::vector<lineGroup> linegroups;
 	std::vector<int> elemCount;
-
-
-
 };
 

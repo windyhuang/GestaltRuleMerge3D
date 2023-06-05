@@ -242,11 +242,8 @@ void MeshObject::MeshContourStructure()//mesh contour進入分析線，形成線
 	//meshEdgeGroup
 	walkpast.resize(edgcontour.size());
 	//計算有交點的線
-	//vector<vector<int>> intersectionline;
 	intersectionline.resize(edgcontour.size());
-	//vector<vector<int>> edgegs;
 	vector<int> groupid; groupid.resize(edgcontour.size());//線群與對應的id
-	//std::cout << "edgcontour.size() " << edgcontour.size() << endl;
 	allAngleAndSame.resize(edgcontour.size());
 	float disTwoPoint = 0.1;
 	for (int i = 0; i < edgcontour.size(); i++) {
@@ -274,9 +271,7 @@ void MeshObject::MeshContourStructure()//mesh contour進入分析線，形成線
 			if (dist(vcontour1p1, vcontour2p1) < disTwoPoint || dist(vcontour1p1, vcontour2p2) < disTwoPoint || dist(vcontour1p2, vcontour2p1) < disTwoPoint || dist(vcontour1p2, vcontour2p2) < disTwoPoint)
 				edgehaspointthesame = true;
 			//算兩條線角度
-			//float angle = (acos(abs(contour1p | contour2p) / (sqrt(contour1p.length()) / sqrt(contour2p.length())))) * 180;
 			float angle = abs((contour1p | contour2p) / (disc1 * disc2));
-
 			if (edgehaspointthesame) {//平行放入175-185
 				if (angle > 0.98) {
 					allAngleAndSame[i].push_back(j);
@@ -304,14 +299,10 @@ void MeshObject::MeshContourStructure()//mesh contour進入分析線，形成線
 					if (walkpast[allAngleAndSame[i][j]] != 1) {
 						edgegs[edgegs.size() - 1].push_back(allAngleAndSame[i][j]);
 						walkpast[allAngleAndSame[i][j]] = 1;
-						//cout <<"edgegs "<< edgegs.size() - 1<< " ,allAngleAndSameID " << i << " ,j " << allAngleAndSame[i][j]  << endl;
 						intangleForGroup(allAngleAndSame[i][j]);
-						//eachgroup.insert(eachgroup.end(), step.begin(), step.end());
 					}
-
 				}
 			}
-
 		}
 	}
 	//只有依水平
@@ -345,61 +336,12 @@ void MeshObject::MeshContourStructure()//mesh contour進入分析線，形成線
 			CalculationBoundingBox(&thisEdgegroup, contour2p2);
 			CalculationFarLine(&thisEdgegroup, contour2p1);
 			CalculationFarLine(&thisEdgegroup, contour2p2);
-			//groupid[j] = meshEdgeGroup.size();
 		}
 		if (input) {
 			int t = 0; t = thisEdgegroup.edgegroups.size();
 			meshEdgeGroup.push_back(thisEdgegroup);
 		}
 	}
-	//排列mesh內的edgegrouup
-	/*for (int i = 0; i < meshEdgeGroup.size(); i++) {
-		std::vector<MyMesh::EdgeIter> step;
-		vector<int> sortgroup;
-		EdgeGroup edgeg;
-		while (sortgroup.size() == meshEdgeGroup[i].edgegroups.size())
-		{
-			for (int j = 0; j < meshEdgeGroup[i].edgegroups.size(); j++) {
-
-						MyMesh::HalfedgeHandle contour1 = mesh.halfedge_handle(*meshEdgeGroup[i].edgegroups[j], 1);
-						MyMesh::Point contour1p1 = mesh.point(mesh.from_vertex_handle(contour1));
-						MyMesh::Point contour1p2 = mesh.point(mesh.to_vertex_handle(contour1));
-						if (sortgroup.size() == 0)
-						{
-							if (contour1p1 == meshEdgeGroup[i].p1 || contour1p2 == meshEdgeGroup[i].p1)
-							{
-								sortgroup.push_back(j);
-								edgeg.edgegroups.push_back(meshEdgeGroup[i].edgegroups[j]);
-								break;
-							}
-						}
-						else {
-							bool insort = false;
-							for (int z = 0; z < sortgroup.size(); z++)
-								if (sortgroup[z] == j)
-									insort = true;
-							if (insort == false)
-							{
-								MyMesh::HalfedgeHandle contour1 = mesh.halfedge_handle(*edgeg.edgegroups[edgeg.edgegroups.size() - 1], 1);
-								MyMesh::Point contour1p1 = mesh.point(mesh.from_vertex_handle(contour1));
-								MyMesh::Point contour1p2 = mesh.point(mesh.to_vertex_handle(contour1));
-								MyMesh::HalfedgeHandle contour2 = mesh.halfedge_handle(*meshEdgeGroup[i].edgegroups[j], 1);
-								MyMesh::Point contour2p1 = mesh.point(mesh.from_vertex_handle(contour2));
-								MyMesh::Point contour2p2 = mesh.point(mesh.to_vertex_handle(contour2));
-								if (contour1p1 == contour2p1 || contour1p2 == contour2p1 || contour1p1 == contour2p2 || contour1p2 == contour2p2)
-								{
-									edgeg.edgegroups.push_back(meshEdgeGroup[i].edgegroups[j]);
-									sortgroup.push_back(j);
-								}
-							}
-						}
-					}
-		}
-
-		meshEdgeGroup[i].edgegroups.clear();
-		meshEdgeGroup[i].edgegroups = edgeg.edgegroups;
-	}*/
-
 	for (int i = 0; i < meshEdgeGroup.size(); i++) {
 		std::vector<MyMesh::EdgeIter> step;
 
@@ -438,7 +380,6 @@ void MeshObject::MeshContourStructure()//mesh contour進入分析線，形成線
 		vector<lineTree*> treenode;
 
 		while (nodenum >= 2) {
-			//nodenum = 0;
 			if (meshEdgeGroup[i].edgegroups.size() == 2)
 			{
 				MyMesh::HalfedgeHandle contour1 = mesh.halfedge_handle(*meshEdgeGroup[i].edgegroups[0], 1);
@@ -540,7 +481,71 @@ void MeshObject::MeshContourStructure()//mesh contour進入分析線，形成線
 	}
 
 }
+///**2023.05.31**///
+// 計算兩點之間的距離
+float distance(const MyMesh::Point& p1, const MyMesh::Point& p2) {
+	return (p1 - p2).length();
+}
 
+// 計算兩個向量之間的角度
+float angleBetween(const MyMesh::Point& p1, const MyMesh::Point& p2) {
+	float dotProduct = p1 | p2;  // OpenMesh的点乘
+	float lengths = p1.length() * p2.length();
+	return acos(dotProduct / lengths);
+}
+
+float MeshObject::getLength(MyMesh::EdgeIter edge) {
+	MyMesh mesh;
+	MyMesh::HalfedgeHandle _heh = mesh.halfedge_handle(*edge, 0);
+	MyMesh::Point start = mesh.point(mesh.from_vertex_handle(_heh));
+	MyMesh::Point end = mesh.point(mesh.to_vertex_handle(_heh));
+	return distance(start, end);
+}
+/*float MeshObject::getAngle(MyMesh::EdgeIter edge) {
+	MyMesh::EdgeIter prevEdge = edge->ccw_rot();  // 获取前一个边缘
+	MyMesh::EdgeIter nextEdge = edge->cw_rot();   // 获取后一个边缘
+
+	MyMesh::Point prevDirection = prevEdge->vertex(1)->point() - prevEdge->vertex(0)->point();
+	MyMesh::Point nextDirection = nextEdge->vertex(1)->point() - nextEdge->vertex(0)->point();
+
+	return angleBetween(prevDirection, nextDirection);
+}*/
+
+bool MeshObject::areApproximate(MyMesh::EdgeIter edge1, MyMesh::EdgeIter edge2, float tolerance) {
+	float length1 = getLength(edge1);
+	float length2 = getLength(edge2);
+
+	// 如果兩個線段的長度相差在容忍範圍內，則它們是近似的
+	return abs(length1 - length2) <= tolerance;
+}
+/*
+bool areClosed(MyMesh::EdgeIter edge1, MyMesh::EdgeIter edge2, float tolerance) {
+	// 檢查是否有一個公共頂點
+	bool shareVertex = false;
+	for (int i = 0; i < 2; ++i) {
+		for (int j = 0; j < 2; ++j) {
+			if (edge1->vertex(i) == edge2->vertex(j)) {
+				shareVertex = true;
+				break;
+			}
+		}
+		if (shareVertex) break;
+	}
+	return shareVertex;
+}
+
+bool areRegular(MyMesh::EdgeIter edge1, MyMesh::EdgeIter edge2, float tolerance) {
+	float angle1 = getAngle(edge1);
+	float angle2 = getAngle(edge2);
+
+	// 如果两个角度差在容忍范围内，那么他们是规则的
+	return abs(angle1 - angle2) <= tolerance;
+}
+*/
+
+
+
+///****///
 // 求兩個向量的叉積
 double cross(const MyMesh::Point& a, const MyMesh::Point& b, const MyMesh::Point& c) {
 	return ((b - a) % (c - a)).length();
@@ -917,6 +922,45 @@ bool MeshObject::RayTriangleIntersection(vec3 linepos1, vec3 linepos2) {
 	return rv;
 
 }
+// 假设我们有一个函数checkLineExistence，在edgcontour中检查一条线是否存在
+bool MeshObject::checkLineExistence(MyMesh::Point p1, MyMesh::Point p2) {
+	MyMesh mesh;
+	for (int i = 0; i < edgcontour.size(); i++) {
+		MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*edgcontour[i], 1);
+		MyMesh::Point fromVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+		MyMesh::Point toVertex = mesh.point(mesh.to_vertex_handle(_hedge));
+		//auto toVertex = mesh.to_vertex_handle(mesh.halfedge_handle(*edge, 0));
+		//auto fromVertex = mesh.from_vertex_handle(mesh.halfedge_handle(*edge, 0));
+		if ((p1 == fromVertex && p2 == toVertex) || (p2 == fromVertex && p1 == toVertex)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool linesIntersect(vec3 p1, vec3 p2, vec3 p3, vec3 p4) {
+	// Compute vectors along the lines
+	vec3 u = p2 - p1;
+	vec3 v = p4 - p3;
+
+	// Compute the cross product of the direction vectors
+	vec3 cross = glm::cross(u,v);
+
+	// If the cross product is zero, the lines are parallel or coincident
+	if (glm::length(cross) == 0) {
+		return false;
+	}
+
+	// Compute the distance between the points
+	vec3 w = p1 - p3;
+
+	// Check if the lines intersect
+	float s = glm::dot(cross, glm::cross(w, v)) / glm::dot(cross, cross);
+	float t = glm::dot(cross, glm::cross(u, w)) / glm::dot(cross, cross);
+
+	// If s and t are between 0 and 1, the lines intersect
+	return s >= 0 && s <= 1 && t >= 0 && t <= 1;
+}
 
 void MeshObject::findContours()
 {
@@ -982,7 +1026,38 @@ void MeshObject::findContours()
 		}
 	}
 	//vector<MyMesh::EdgeIter> Construct(edgcontour);
-	// 從凸包的頂點開始，尋找邊界上的線段	
+	// 從凸包的頂點開始，尋找邊界上的線段
+	/*for (int i = 0; i < convexpoint.size(); ++i) {
+		MyMesh::Point p1 = convexpoint[i];
+		MyMesh::Point p2 = convexpoint[(i + 1) % convexpoint.size()]; // use modulo to loop back to the start
+		bool line1b = false, line2b = false;
+
+		for (int i = 0; i < edgcontour.size(); i++)
+		{
+			MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*edgcontour[i], 1);
+			MyMesh::Point curVertex = mesh.point(mesh.from_vertex_handle(_hedge));
+			MyMesh::Point curVertex1 = mesh.point(mesh.to_vertex_handle(_hedge));
+			vec3 o = vec3(curVertex1[0], curVertex1[1], curVertex1[2]);
+			vec3 o1 = vec3(curVertex[0], curVertex[1], curVertex[2]);
+			for (int j = 0; j < convexpoint.size(); j++) {
+				if (curVertex == convexpoint[j]) line1b = true;
+				if (curVertex1 == convexpoint[j]) line2b = true;
+				if (line1b && line2b) break;
+			}
+		}
+		if (line1b && line2b) {
+			vec3 o1 = vec3(p1[0], p1[1], p1[2]);
+			vec3 o2 = vec3(p2[0], p2[1], p2[2]);
+			convexline.push_back(o1);
+			convexline.push_back(o2);
+		}
+	}*/
+	/*for (int i = 0; i < convexpoint.size(); i++) {
+		vec3 o = vec3(convexpoint[i][0], convexpoint[i][1], convexpoint[i][2]);
+		vec3 o1 = vec3(convexpoint[(i + 1) % convexpoint.size()][0], convexpoint[(i + 1) % convexpoint.size()][1], convexpoint[(i + 1) % convexpoint.size()][2]);
+		convexline.push_back(o);
+		convexline.push_back(o1);
+	}*/
 	for (int i = 0; i < edgcontour.size(); i++)
 	{
 		MyMesh::HalfedgeHandle _hedge = mesh.halfedge_handle(*edgcontour[i], 1);
@@ -1001,7 +1076,32 @@ void MeshObject::findContours()
 			convexline.push_back(o1);
 		}
 	}
+	vector<vec3> addconvex;
+	vector<int>stepd;
+	// Extend each line in convexline and check for intersection with the other lines
+	for (int i = 0; i < convexline.size(); i += 2) {
+		vec3 extendedLinePoint1 = convexline[i] * 2.0f - convexline[i + 1];
+		vec3 extendedLinePoint2 = convexline[i + 1] * 2.0f - convexline[i];
 
+		for (int j = 0; j < convexline.size(); j += 2) {
+			if (j != i && linesIntersect(extendedLinePoint1, extendedLinePoint2, convexline[j], convexline[j + 1])) {
+				addconvex.push_back(extendedLinePoint1);
+				addconvex.push_back(extendedLinePoint2);
+				stepd.push_back(i); stepd.push_back(j);
+				break;
+			}
+		}
+	}
+	std::sort(stepd.begin(), stepd.end());
+	vector<int>::iterator ite = unique(stepd.begin(), stepd.end());
+	stepd.erase(ite, stepd.end());
+	//convexline.clear();	
+	convexline .insert(convexline.end(), addconvex.begin(), addconvex.end());
+	for (int i = stepd.size() - 1; i >= 0; i--)
+	{
+		convexline.erase(convexline.begin() + i + 1);
+		convexline.erase(convexline.begin() + i );
+	}
 }
 
 int MeshObject::go_lineTree(MeshObject::lineTree& showline, int level, vector<vec3>& lines) {
